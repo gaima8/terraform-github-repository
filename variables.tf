@@ -387,7 +387,7 @@ variable "security_and_analysis" {
         for key, value in var.security_and_analysis : contains(["enabled", "disabled"], value)
       ]
     )
-    error_message = "Allowed values for security_and_analysis.advanced_security, security_and_analysis.secret_scanning, security_and_analysis.secret_scanning_push_protection are \"disabled\" and \"enabled\""
+    error_message = "Allowed values for security_and_analysis.advanced_security, security_and_analysis.secret_scanning, security_and_analysis.secret_scanning_push_protection are \"disabled\" and \"enabled\"."
   }
 }
 
