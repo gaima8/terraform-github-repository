@@ -414,7 +414,7 @@ variable "security_and_analysis" {
     )
     error_message = <<EOF
 Allowed values for security_and_analysis.advanced_security, security_and_analysis.secret_scanning,
-security_and_analysis.secret_scanning_push_protection are "disabled" and "enabled"
+security_and_analysis.secret_scanning_push_protection are "disabled" and "enabled".
 EOF
   }
 }
