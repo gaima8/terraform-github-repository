@@ -59,6 +59,7 @@ locals {
       merge({
         strict   = null
         contexts = []
+        checks   = []
     }, b.required_status_checks)] : []
   ]
 
@@ -111,6 +112,11 @@ resource "github_repository" "repository" {
   archived               = var.archived
   topics                 = local.topics
 
+  squash_merge_commit_title   = var.squash_merge_commit_title
+  squash_merge_commit_message = var.squash_merge_commit_message
+  merge_commit_title          = var.merge_commit_title
+  merge_commit_message        = var.merge_commit_message
+
   archive_on_destroy   = var.archive_on_destroy
   vulnerability_alerts = local.vulnerability_alerts
 
@@ -131,7 +137,8 @@ resource "github_repository" "repository" {
         branch = var.pages.branch
         path   = try(var.pages.path, "/")
       }
-      cname = try(var.pages.cname, null)
+      cname      = try(var.pages.cname, null)
+      build_type = try(var.pages.build_type, null)
     }
   }
 
@@ -263,6 +270,7 @@ resource "github_branch_protection_v3" "branch_protection" {
     content {
       strict   = required_status_checks.value.strict
       contexts = required_status_checks.value.contexts
+      checks   = required_status_checks.value.checks
     }
   }
 

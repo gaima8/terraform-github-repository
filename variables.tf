@@ -126,6 +126,7 @@ variable "pages" {
   # branch = string
   # path   = string
   # cname  = string
+  # build_type = string
   # })
   type    = any
   default = null
@@ -286,6 +287,7 @@ variable "branch_protections_v3" {
   #   required_status_checks = object({
   #     strict   = bool
   #     contexts = list(string)
+  #     checks   = list(string)
   #   })
   #   required_pull_request_reviews = object({
   #     dismiss_stale_reviews           = bool
@@ -560,6 +562,31 @@ variable "app_installations" {
   type        = set(string)
   description = "(Optional) A list of GitHub App IDs to be installed in this repository."
   default     = []
+}
+
+variable "squash_merge_commit_title" {
+  type    = string
+  default = null
+}
+
+variable "squash_merge_commit_message" {
+  type    = string
+  default = null
+}
+
+variable "merge_commit_title" {
+  type    = string
+  default = null
+}
+
+variable "merge_commit_message" {
+  type    = string
+  default = null
+}
+
+variable "variables" {
+  type    = map(string)
+  default = {}
 }
 
 # ------------------------------------------------------------------------------
