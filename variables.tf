@@ -344,6 +344,7 @@ variable "branch_protections_v4" {
   #       blocks_creations                = optional(bool, false)
   #       enforce_admins                  = optional(bool, false)
   #       push_restrictions               = optional(list(string), [])
+  #       force_push_bypassers            = optional(list(string), [])
   #       require_conversation_resolution = optional(bool, false)
   #       require_signed_commits          = optional(bool, false)
   #       required_linear_history         = optional(bool, false)
