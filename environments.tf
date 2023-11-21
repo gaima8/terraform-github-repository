@@ -5,9 +5,10 @@ variable "environments" {
     deployment_branch_policy = optional(object({
       protected_branches     = bool
       custom_branch_policies = optional(bool)
-      }))
+    }))
     branch_patterns = optional(list(string), [])
     variables       = optional(map(string), {})
+    wait_timer      = optional(number)
   }))
   default = {}
 }
@@ -16,12 +17,13 @@ resource "github_repository_environment" "this" {
   for_each    = var.environments
   repository  = github_repository.repository.name
   environment = each.key
+  wait_timer  = each.value.wait_timer
 
   dynamic "reviewers" {
     for_each = length(each.value.reviewer_teams) > 0 || length(each.value.reviewer_users) > 0 ? [true] : []
     content {
       teams = [for slug in each.value.reviewer_teams : try(local.team_ids_by_slug[slug], slug)]
-      users = each.value.reviewer_users
+      users = [for username in each.value.reviewer_users : local.user_ids_by_name[username]]
     }
   }
 
