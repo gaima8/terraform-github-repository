@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.18.0]
+## [0.19.0]
 
 ### Changed
 
@@ -20,6 +20,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for `merge_commit_title`
 - Add support for `merge_commit_message`
 - Add support for `ignore_vulnerability_alerts_during_read`
+
+## [0.18.0]
+
+### Added
+
+- Add support for v4 branch protections.
+
+### Removed
+
+- BREAKING CHANGE: Remove deprectated variable `branch_protections` please use `branch_protections_v3` instead.
+
+### Deprecated
+
+- Mark `var.defaults` as deprecated. This variable was introduced and used before Terraform Module `for_each` was available.
 
 ## [0.17.0]
 
@@ -399,7 +413,8 @@ Please review plans and report regressions and issues asap so we can improve doc
 - This is the initial release of our GitHub Repository module with support for
   creating and managing GitHub Repositories for Organizations.
 
-[unreleased]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...HEAD
+[unreleased]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.1...v0.16.2

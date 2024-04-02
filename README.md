@@ -17,35 +17,37 @@ A [Terraform] module for creating a public or private repository on [Github].
 ** Note: Versions 5.3.0, 5.4.0, 5.5.0, and 5.6.0 of the Terraform Github Provider have broken branch protections support and should not be used.**
 
 
-- [GitHub as Code](#github-as-code)
-- [Module Features](#module-features)
-- [Getting Started](#getting-started)
-- [Module Argument Reference](#module-argument-reference)
-  - [Main Resource Configuration](#main-resource-configuration)
-  - [Extended Resource Configuration](#extended-resource-configuration)
-    - [Repository Creation Configuration](#repository-creation-configuration)
-    - [Teams Configuration](#teams-configuration)
-    - [Collaborator Configuration](#collaborator-configuration)
-    - [Branches Configuration](#branches-configuration)
-    - [Deploy Keys Configuration](#deploy-keys-configuration)
-    - [Branch Protections Configuration](#branch-protections-configuration)
-    - [Issue Labels Configuration](#issue-labels-configuration)
-    - [Projects Configuration](#projects-configuration)
-    - [Webhooks Configuration](#webhooks-configuration)
-    - [Secrets Configuration](#secrets-configuration)
-    - [Autolink References Configuration](#autolink-references-configuration)
-    - [App Installations](#app-installations)
-  - [Module Configuration](#module-configuration)
-- [Module Outputs](#module-outputs)
-- [External Documentation](#external-documentation)
-  - [Terraform Github Provider Documentation](#terraform-github-provider-documentation)
-- [Module Versioning](#module-versioning)
-  - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
-- [About Mineiros](#about-mineiros)
-- [Reporting Issues](#reporting-issues)
-- [Contributing](#contributing)
-- [Makefile Targets](#makefile-targets)
-- [License](#license)
+- [terraform-github-repository](#terraform-github-repository)
+  - [GitHub as Code](#github-as-code)
+  - [Module Features](#module-features)
+  - [Getting Started](#getting-started)
+  - [Module Argument Reference](#module-argument-reference)
+    - [Main Resource Configuration](#main-resource-configuration)
+    - [Extended Resource Configuration](#extended-resource-configuration)
+      - [Repository Creation Configuration](#repository-creation-configuration)
+      - [Teams Configuration](#teams-configuration)
+      - [Collaborator Configuration](#collaborator-configuration)
+      - [Branches Configuration](#branches-configuration)
+      - [Deploy Keys Configuration](#deploy-keys-configuration)
+      - [Branch Protections v3 Configuration](#branch-protections-v3-configuration)
+      - [Branch Protections v4 Configuration](#branch-protections-v4-configuration)
+      - [Issue Labels Configuration](#issue-labels-configuration)
+      - [Projects Configuration](#projects-configuration)
+      - [Webhooks Configuration](#webhooks-configuration)
+      - [Secrets Configuration](#secrets-configuration)
+      - [Autolink References Configuration](#autolink-references-configuration)
+      - [App Installations](#app-installations)
+    - [Module Configuration](#module-configuration)
+  - [Module Outputs](#module-outputs)
+  - [External Documentation](#external-documentation)
+    - [Terraform Github Provider Documentation](#terraform-github-provider-documentation)
+  - [Module Versioning](#module-versioning)
+    - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
+  - [About Mineiros](#about-mineiros)
+  - [Reporting Issues](#reporting-issues)
+  - [Contributing](#contributing)
+  - [Makefile Targets](#makefile-targets)
+  - [License](#license)
 
 ## GitHub as Code
 
@@ -110,19 +112,6 @@ module "repository" {
   license_template   = "apache-2.0"
   gitignore_template = "Terraform"
 }
-
-provider "github" {}
-
-terraform {
-  required_version = "~> 1.0"
-
-  required_providers {
-    github = {
-      source  = "integrations/github"
-      version = "~> 4.0"
-    }
-  }
-}
 ```
 
 ## Module Argument Reference
@@ -137,42 +126,10 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - [**`defaults`**](#var-defaults): *(Optional `object(defaults)`)*<a name="var-defaults"></a>
 
-  A object of default settings to use instead of module defaults for top-level arguments.
-  See below for a list of supported arguments.
-
-  This is a special argument to set various defaults to be reused for multiple repositories.
-
-  The following top-level arguments can be set as defaults:
-  `homepage_url`,
-  `visibility`,
-  `has_issues`,
-  `has_projects`,
-  `has_wiki`,
-  `has_downloads`,
-  `delete_branch_on_merge`,
-  `is_template`,
-  `allow_merge_commit`,
-  `allow_rebase_merge`,
-  `allow_squash_merge`,
-  `allow_auto_merge`,
-  `auto_init`,
-  `gitignore_template`,
-  `license_template`,
-  `squash_merge_commit_title`,
-  `squash_merge_commit_message`,
-  `merge_commit_title`,
-  `merge_commit_message`,
-  `auto_init`,
-  `default_branch`,
-  `topics`,
-  `issue_labels_create`,
-  `issue_labels_merge_with_github_labels`,
-  `vulnerability_alerts`,
-  `ignore_vulnerability_alerts_during_read`,
-  `template`.
-
-  Module defaults are used for all arguments that are not set in `defaults`.
-  Using top level arguments override defaults set by this argument.
+  DEPRECATED:
+  This variable will be removed in future releases.
+  It was needed in times when Terraform Module for each was not available to provide default values for multiple repositories.
+  Please convert your code accordingly to stay compatible with future releases.
 
   Default is `{}`.
 
@@ -567,11 +524,11 @@ This is due to some terraform limitation and we will update the module once terr
 
     Default is `"md5(key)"`.
 
-#### Branch Protections Configuration
+#### Branch Protections v3 Configuration
 
 - [**`branch_protections_v3`**](#var-branch_protections_v3): *(Optional `list(branch_protection_v3)`)*<a name="var-branch_protections_v3"></a>
 
-  This resource allows you to configure branch protection for repositories in your organization.
+  This resource allows you to configure v3 branch protection for repositories in your organization.
   When applied, the branch will be protected from forced pushes and deletion.
   Additional constraints, such as required status checks or restrictions on users and teams, can also be configured.
 
@@ -684,12 +641,143 @@ This is due to some terraform limitation and we will update the module once terr
 
       Default is `[]`.
 
-- [**`branch_protections`**](#var-branch_protections): *(Optional `list(branch_protection_v3)`)*<a name="var-branch_protections"></a>
+#### Branch Protections v4 Configuration
 
-  **_DEPRECATED_** To ensure compatibility with future versions of this module, please use `branch_protections_v3`.
-  This argument is ignored if `branch_protections_v3` is used. Please see `branch_protections_v3` for supported attributes.
+- [**`branch_protections_v4`**](#var-branch_protections_v4): *(Optional `list(branch_protection_v4)`)*<a name="var-branch_protections_v4"></a>
+
+  This resource allows you to configure v4 branch protection for repositories in your organization.
+
+  Each element in the list is a branch to be protected and the value the corresponding to the desired configuration for the branch.
+
+  When applied, the branch will be protected from forced pushes and deletion.
+  Additional constraints, such as required status checks or restrictions on users and teams, can also be configured.
+
+  **_NOTE:_** May conflict with v3 branch protections if used for the same branch.
 
   Default is `[]`.
+
+  Each `branch_protection_v4` object in the list accepts the following attributes:
+
+  - [**`pattern`**](#attr-branch_protections_v4-pattern): *(**Required** `string`)*<a name="attr-branch_protections_v4-pattern"></a>
+
+    Identifies the protection rule pattern.
+
+  - [**`_key`**](#attr-branch_protections_v4-_key): *(Optional `string`)*<a name="attr-branch_protections_v4-_key"></a>
+
+    An alternative key to use in `for_each` resource creation.
+    Defaults to the value of `var.pattern`.
+
+  - [**`allows_deletions`**](#attr-branch_protections_v4-allows_deletions): *(Optional `bool`)*<a name="attr-branch_protections_v4-allows_deletions"></a>
+
+    Setting this to `true` to allow the branch to be deleted.
+
+    Default is `false`.
+
+  - [**`allows_force_pushes`**](#attr-branch_protections_v4-allows_force_pushes): *(Optional `bool`)*<a name="attr-branch_protections_v4-allows_force_pushes"></a>
+
+    Setting this to `true` to allow force pushes on the branch.
+
+    Default is `false`.
+
+  - [**`blocks_creations`**](#attr-branch_protections_v4-blocks_creations): *(Optional `bool`)*<a name="attr-branch_protections_v4-blocks_creations"></a>
+
+    Setting this to `true` will block creating the branch.
+
+    Default is `false`.
+
+  - [**`enforce_admins`**](#attr-branch_protections_v4-enforce_admins): *(Optional `bool`)*<a name="attr-branch_protections_v4-enforce_admins"></a>
+
+    Keeping this as `true` enforces status checks for repository administrators.
+
+    Default is `true`.
+
+  - [**`push_restrictions`**](#attr-branch_protections_v4-push_restrictions): *(Optional `list(string)`)*<a name="attr-branch_protections_v4-push_restrictions"></a>
+
+    The list of actor Names/IDs that may push to the branch.
+    Actor names must either begin with a "/" for users or the organization name followed by a "/" for teams.
+
+    Default is `[]`.
+
+  - [**`require_conversation_resolution`**](#attr-branch_protections_v4-require_conversation_resolution): *(Optional `bool`)*<a name="attr-branch_protections_v4-require_conversation_resolution"></a>
+
+    Setting this to true requires all conversations on code must be resolved before a pull request can be merged.
+
+    Default is `false`.
+
+  - [**`require_signed_commits`**](#attr-branch_protections_v4-require_signed_commits): *(Optional `bool`)*<a name="attr-branch_protections_v4-require_signed_commits"></a>
+
+    Setting this to true requires all commits to be signed with GPG.
+
+    Default is `false`.
+
+  - [**`required_linear_history`**](#attr-branch_protections_v4-required_linear_history): *(Optional `bool`)*<a name="attr-branch_protections_v4-required_linear_history"></a>
+
+    Setting this to true enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch.
+
+    Default is `false`.
+
+  - [**`required_pull_request_reviews`**](#attr-branch_protections_v4-required_pull_request_reviews): *(Optional `object(required_pull_request_reviews)`)*<a name="attr-branch_protections_v4-required_pull_request_reviews"></a>
+
+    Enforce restrictions for pull request reviews.
+
+    The `required_pull_request_reviews` object accepts the following attributes:
+
+    - [**`dismiss_stale_reviews`**](#attr-branch_protections_v4-required_pull_request_reviews-dismiss_stale_reviews): *(Optional `bool`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-dismiss_stale_reviews"></a>
+
+      Dismiss approved reviews automatically when a new commit is pushed.
+
+      Default is `true`.
+
+    - [**`restrict_dismissals`**](#attr-branch_protections_v4-required_pull_request_reviews-restrict_dismissals): *(Optional `bool`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-restrict_dismissals"></a>
+
+      Restrict pull request review dismissals.
+
+    - [**`dismissal_restrictions`**](#attr-branch_protections_v4-required_pull_request_reviews-dismissal_restrictions): *(Optional `list(string)`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-dismissal_restrictions"></a>
+
+      The list of actor Names/IDs with dismissal access.
+      If not empty, `restrict_dismissals` is ignored
+      Actor names must either begin with a `/` for users or the organization name followed by a `/` for teams.
+
+      Default is `[]`.
+
+    - [**`pull_request_bypassers`**](#attr-branch_protections_v4-required_pull_request_reviews-pull_request_bypassers): *(Optional `list(string)`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-pull_request_bypassers"></a>
+
+      The list of actor Names/IDs that are allowed to bypass pull request requirements.
+      Actor names must either begin with a `/` for users or the organization name followed by a `/` for teams.
+
+      Default is `[]`.
+
+    - [**`require_code_owner_reviews`**](#attr-branch_protections_v4-required_pull_request_reviews-require_code_owner_reviews): *(Optional `bool`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-require_code_owner_reviews"></a>
+
+      Require an approved review in pull requests including files with a designated code owner.
+
+      Default is `true`.
+
+    - [**`required_approving_review_count`**](#attr-branch_protections_v4-required_pull_request_reviews-required_approving_review_count): *(Optional `number`)*<a name="attr-branch_protections_v4-required_pull_request_reviews-required_approving_review_count"></a>
+
+      Require x number of approvals to satisfy branch protection requirements.
+      If this is specified it must be a number between 0-6.
+
+      Default is `0`.
+
+  - [**`required_status_checks`**](#attr-branch_protections_v4-required_status_checks): *(Optional `object(required_status_checks)`)*<a name="attr-branch_protections_v4-required_status_checks"></a>
+
+    Enforce restrictions for required status checks.
+    See Required Status Checks below for details.
+
+    The `required_status_checks` object accepts the following attributes:
+
+    - [**`strict`**](#attr-branch_protections_v4-required_status_checks-strict): *(Optional `bool`)*<a name="attr-branch_protections_v4-required_status_checks-strict"></a>
+
+      Require branches to be up to date before merging.
+
+      Default is `false`.
+
+    - [**`contexts`**](#attr-branch_protections_v4-required_status_checks-contexts): *(Optional `list(string)`)*<a name="attr-branch_protections_v4-required_status_checks-contexts"></a>
+
+      The list of status checks to require in order to merge into this branch. If default is `[]` no status checks are required.
+
+      Default is `[]`.
 
 #### Issue Labels Configuration
 
