@@ -556,6 +556,30 @@ variable "app_installations" {
   default     = []
 }
 
+variable "squash_merge_commit_title" {
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message."
+  default     = "COMMIT_OR_PR_TITLE"
+}
+
+variable "squash_merge_commit_message" {
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message."
+  default     = "COMMIT_MESSAGES"
+}
+
+variable "merge_commit_title" {
+  type        = string
+  description = "(Optional) Can be `PR_TITLE` or `MERGE_MESSAGE` for a default merge commit title."
+  default     = "MERGE_MESSAGE"
+}
+
+variable "merge_commit_message" {
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `PR_TITLE`, or `BLANK` for a default merge commit message."
+  default     = "PR_TITLE"
+}
+
 # ------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.
