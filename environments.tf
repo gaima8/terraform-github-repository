@@ -6,18 +6,20 @@ variable "environments" {
       protected_branches     = bool
       custom_branch_policies = optional(bool)
     }))
-    branch_patterns = optional(list(string), [])
-    variables       = optional(map(string), {})
-    wait_timer      = optional(number)
+    branch_patterns     = optional(list(string), [])
+    variables           = optional(map(string), {})
+    wait_timer          = optional(number)
+    prevent_self_review = optional(bool)
   }))
   default = {}
 }
 
 resource "github_repository_environment" "this" {
-  for_each    = var.environments
-  repository  = github_repository.repository.name
-  environment = each.key
-  wait_timer  = each.value.wait_timer
+  for_each            = var.environments
+  repository          = github_repository.repository.name
+  environment         = each.key
+  wait_timer          = each.value.wait_timer
+  prevent_self_review = each.value.prevent_self_review
 
   dynamic "reviewers" {
     for_each = length(each.value.reviewer_teams) > 0 || length(each.value.reviewer_users) > 0 ? [true] : []
