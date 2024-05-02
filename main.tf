@@ -217,9 +217,13 @@ resource "github_branch_protection" "branch_protection" {
   require_signed_commits          = try(var.branch_protections_v4[each.value].require_signed_commits, false)
   required_linear_history         = try(var.branch_protections_v4[each.value].required_linear_history, false)
 
-  restrict_pushes {
-    blocks_creations = try(var.branch_protections_v4[each.value].blocks_creations, false)
-    push_allowances  = try(var.branch_protections_v4[each.value].push_restrictions, [])
+  dynamic "restrict_pushes" {
+    for_each = try(var.branch_protections_v4[each.value].blocks_creations, false) || length(try(var.branch_protections_v4[each.value].push_restrictions, [])) > 0 ? [1] : []
+
+    content {
+      blocks_creations = try(var.branch_protections_v4[each.value].blocks_creations, false)
+      push_allowances  = try(var.branch_protections_v4[each.value].push_restrictions, [])
+    }
   }
 
   dynamic "required_pull_request_reviews" {
