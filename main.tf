@@ -11,6 +11,7 @@ locals {
   visibility             = var.visibility == null ? lookup(var.defaults, "visibility", local.private_visibility) : var.visibility
   has_issues             = var.has_issues == null ? lookup(var.defaults, "has_issues", false) : var.has_issues
   has_projects           = var.has_projects == null ? lookup(var.defaults, "has_projects", false) : length(var.projects) > 0 ? true : var.has_projects
+  has_downloads          = var.has_downloads == null ? lookup(var.defaults, "has_downloads", false) : var.has_downloads
   has_wiki               = var.has_wiki == null ? lookup(var.defaults, "has_wiki", false) : var.has_wiki
   allow_merge_commit     = var.allow_merge_commit == null ? lookup(var.defaults, "allow_merge_commit", true) : var.allow_merge_commit
   allow_rebase_merge     = var.allow_rebase_merge == null ? lookup(var.defaults, "allow_rebase_merge", false) : var.allow_rebase_merge
@@ -19,7 +20,6 @@ locals {
   allow_auto_merge       = var.allow_auto_merge == null ? lookup(var.defaults, "allow_auto_merge", false) : var.allow_auto_merge
   delete_branch_on_merge = var.delete_branch_on_merge == null ? lookup(var.defaults, "delete_branch_on_merge", true) : var.delete_branch_on_merge
   is_template            = var.is_template == null ? lookup(var.defaults, "is_template", false) : var.is_template
-  has_downloads          = var.has_downloads == null ? lookup(var.defaults, "has_downloads", false) : var.has_downloads
   auto_init              = var.auto_init == null ? lookup(var.defaults, "auto_init", true) : var.auto_init
   gitignore_template     = var.gitignore_template == null ? lookup(var.defaults, "gitignore_template", "") : var.gitignore_template
   license_template       = var.license_template == null ? lookup(var.defaults, "license_template", "") : var.license_template
@@ -28,6 +28,11 @@ locals {
   topics                 = concat(local.standard_topics, var.extra_topics)
   template               = var.template == null ? [] : [var.template]
   issue_labels_create    = var.issue_labels_create == null ? lookup(var.defaults, "issue_labels_create", local.issue_labels_create_computed) : var.issue_labels_create
+
+  squash_merge_commit_title   = var.squash_merge_commit_title == null ? try(var.defaults.squash_merge_commit_title, "COMMIT_OR_PR_TITLE") : var.squash_merge_commit_title
+  squash_merge_commit_message = var.squash_merge_commit_message == null ? try(var.defaults.squash_merge_commit_message, "COMMIT_MESSAGES") : var.squash_merge_commit_message
+  merge_commit_title          = var.merge_commit_title == null ? try(var.defaults.merge_commit_title, "MERGE_MESSAGE") : var.merge_commit_title
+  merge_commit_message        = var.merge_commit_message == null ? try(var.merge_commit_message, "PR_TITLE") : var.merge_commit_message
 
   issue_labels_create_computed = local.has_issues || length(var.issue_labels) > 0
 
@@ -38,6 +43,8 @@ locals {
   issue_labels_merge_with_github_labels = local.gh_labels
   # Per default, GitHub activates vulnerability  alerts for public repositories and disables it for private repositories
   vulnerability_alerts = var.vulnerability_alerts != null ? var.vulnerability_alerts : local.private ? false : true
+
+  web_commit_signoff_required = var.web_commit_signoff_required == null ? lookup(var.defaults, "web_commit_signoff_required", false) : var.web_commit_signoff_required
 }
 
 locals {
@@ -112,13 +119,15 @@ resource "github_repository" "repository" {
   archived               = var.archived
   topics                 = local.topics
 
-  squash_merge_commit_title   = var.squash_merge_commit_title
-  squash_merge_commit_message = var.squash_merge_commit_message
-  merge_commit_title          = var.merge_commit_title
-  merge_commit_message        = var.merge_commit_message
-
   archive_on_destroy   = var.archive_on_destroy
   vulnerability_alerts = local.vulnerability_alerts
+
+  web_commit_signoff_required = local.web_commit_signoff_required
+
+  squash_merge_commit_title   = local.squash_merge_commit_title
+  squash_merge_commit_message = local.squash_merge_commit_message
+  merge_commit_title          = local.merge_commit_title
+  merge_commit_message        = local.merge_commit_message
 
   dynamic "template" {
     for_each = local.template
@@ -133,9 +142,13 @@ resource "github_repository" "repository" {
     for_each = var.pages != null ? [true] : []
 
     content {
-      source {
-        branch = var.pages.branch
-        path   = try(var.pages.path, "/")
+      dynamic "source" {
+        for_each = try(var.pages.build_type, null) == "workflow" ? [] : [true]
+
+        content {
+          branch = var.pages.branch
+          path   = try(var.pages.path, "/")
+        }
       }
       cname      = try(var.pages.cname, null)
       build_type = try(var.pages.build_type, null)
@@ -236,6 +249,7 @@ resource "github_branch_protection" "branch_protection" {
       pull_request_bypassers          = try(required_pull_request_reviews.value.pull_request_bypassers, [])
       require_code_owner_reviews      = try(required_pull_request_reviews.value.require_code_owner_reviews, true)
       required_approving_review_count = try(required_pull_request_reviews.value.required_approving_review_count, 0)
+      require_last_push_approval      = try(required_pull_request_reviews.value.require_last_push_approval, true)
     }
   }
 

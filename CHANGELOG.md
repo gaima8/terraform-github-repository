@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.1]
+
+### Changed
+
+  JonathanSerafini: update for terraform provider 6.x fixing pages
+  JonathanSerafini: add web_commit_signoff_required
+
+## [0.19.0]
+
+### Changed
+
+- BREAKING: update to provider `>= 4.31` for supporting default squash and merge commit titles and messages
+
+### Added
+
+- Add support for `squash_merge_commit_title`
+- Add support for `squash_merge_commit_message`
+- Add support for `merge_commit_title`
+- Add support for `merge_commit_message`
+
 ## [0.18.0]
 
 ### Added
@@ -399,7 +419,8 @@ Please review plans and report regressions and issues asap so we can improve doc
 - This is the initial release of our GitHub Repository module with support for
   creating and managing GitHub Repositories for Organizations.
 
-[unreleased]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...HEAD
+[unreleased]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.1...v0.16.2

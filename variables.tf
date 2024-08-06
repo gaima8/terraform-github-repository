@@ -123,10 +123,10 @@ variable "auto_init" {
 variable "pages" {
   description = "(Optional) The repository's GitHub Pages configuration. (Default: {})"
   # type = object({
-  # branch = string
-  # path   = string
-  # cname  = string
-  # build_type = string
+  # branch     = string
+  # path       = string or null
+  # cname      = string
+  # build_type = workflow or legacy (requires branch and optional path )
   # })
   type    = any
   default = null
@@ -341,7 +341,6 @@ variable "branch_protections_v4" {
   #       pattern                         = string
   #       allows_deletions                = optional(bool, false)
   #       allows_force_pushes             = optional(bool, false)
-  #       blocks_creations                = optional(bool, false)
   #       enforce_admins                  = optional(bool, false)
   #       push_restrictions               = optional(list(string), [])
   #       force_push_bypassers            = optional(list(string), [])
@@ -565,29 +564,53 @@ variable "app_installations" {
   default     = []
 }
 
+variable "web_commit_signoff_required" {
+  type        = bool
+  description = "(Optional) Require contributors to sign off on web-based commits."
+  default     = null
+}
+
 variable "squash_merge_commit_title" {
-  type    = string
-  default = null
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message."
+  default     = "COMMIT_OR_PR_TITLE"
 }
 
 variable "squash_merge_commit_message" {
-  type    = string
-  default = null
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message."
+  default     = "COMMIT_MESSAGES"
 }
 
 variable "merge_commit_title" {
-  type    = string
-  default = null
+  type        = string
+  description = "(Optional) Can be `PR_TITLE` or `MERGE_MESSAGE` for a default merge commit title."
+  default     = "MERGE_MESSAGE"
 }
 
 variable "merge_commit_message" {
-  type    = string
-  default = null
+  type        = string
+  description = "(Optional) Can be `PR_BODY`, `PR_TITLE`, or `BLANK` for a default merge commit message."
+  default     = "PR_TITLE"
 }
 
 variable "variables" {
-  type    = map(string)
+  description = "(Optional) Configure action variables. For full details please check: https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_variable"
+  type        = map(string)
+
   default = {}
+
+  validation {
+    condition     = length(var.variables) <= 500
+    error_message = "Github restricts the number of Action variables per repository to 500"
+  }
+
+  validation {
+    condition = alltrue(concat([true], [
+      for _, v in var.variables : length(v) <= 48 * 1000
+    ]))
+    error_message = "Github restricts the maximum size of a single Action variable to 48KB"
+  }
 }
 
 # ------------------------------------------------------------------------------

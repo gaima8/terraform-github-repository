@@ -3,7 +3,7 @@ data "github_organization_teams" "all" {
 }
 
 data "github_user" "user" {
-  for_each = toset(length(var.environments) > 0 ? distinct(concat([ for n, e in var.environments : e.reviewer_users ]...)) : [])
+  for_each = toset(length(var.environments) > 0 ? distinct(concat([for n, e in var.environments : e.reviewer_users]...)) : [])
   username = each.key
 }
 
