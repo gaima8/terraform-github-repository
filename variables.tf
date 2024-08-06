@@ -90,6 +90,12 @@ variable "allow_rebase_merge" {
   default     = null
 }
 
+variable "allow_update_branch" {
+  description = "(Optional) Set to true to suggest updating pull request branches. (Default: false)"
+  type        = bool
+  default     = null
+}
+
 variable "allow_auto_merge" {
   description = "(Optional) Set to true to allow auto-merging pull requests on the repository. If enabled for a pull request, the pull request will merge automatically when all required reviews are met and status checks have passed. (Default: false)"
   type        = bool
@@ -117,10 +123,10 @@ variable "auto_init" {
 variable "pages" {
   description = "(Optional) The repository's GitHub Pages configuration. (Default: {})"
   # type = object({
-  # branch      = string
-  # path        = string or null
-  # cname       = string
-  # build_type  = workflow or legacy (requires branch and optional path )
+  # branch     = string
+  # path       = string or null
+  # cname      = string
+  # build_type = workflow or legacy (requires branch and optional path )
   # })
   type    = any
   default = null
@@ -281,6 +287,7 @@ variable "branch_protections_v3" {
   #   required_status_checks = object({
   #     strict   = bool
   #     contexts = list(string)
+  #     checks   = list(string)
   #   })
   #   required_pull_request_reviews = object({
   #     dismiss_stale_reviews           = bool
@@ -335,6 +342,8 @@ variable "branch_protections_v4" {
   #       allows_deletions                = optional(bool, false)
   #       allows_force_pushes             = optional(bool, false)
   #       enforce_admins                  = optional(bool, false)
+  #       push_restrictions               = optional(list(string), [])
+  #       force_push_bypassers            = optional(list(string), [])
   #       require_conversation_resolution = optional(bool, false)
   #       require_signed_commits          = optional(bool, false)
   #       required_linear_history         = optional(bool, false)
@@ -583,6 +592,25 @@ variable "merge_commit_message" {
   type        = string
   description = "(Optional) Can be `PR_BODY`, `PR_TITLE`, or `BLANK` for a default merge commit message."
   default     = "PR_TITLE"
+}
+
+variable "variables" {
+  description = "(Optional) Configure action variables. For full details please check: https://registry.terraform.io/providers/integrations/github/latest/docs/resources/actions_variable"
+  type        = map(string)
+
+  default = {}
+
+  validation {
+    condition     = length(var.variables) <= 500
+    error_message = "Github restricts the number of Action variables per repository to 500"
+  }
+
+  validation {
+    condition = alltrue(concat([true], [
+      for _, v in var.variables : length(v) <= 48 * 1000
+    ]))
+    error_message = "Github restricts the maximum size of a single Action variable to 48KB"
+  }
 }
 
 # ------------------------------------------------------------------------------

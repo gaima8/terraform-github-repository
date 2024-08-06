@@ -16,6 +16,7 @@ locals {
   allow_merge_commit     = var.allow_merge_commit == null ? lookup(var.defaults, "allow_merge_commit", true) : var.allow_merge_commit
   allow_rebase_merge     = var.allow_rebase_merge == null ? lookup(var.defaults, "allow_rebase_merge", false) : var.allow_rebase_merge
   allow_squash_merge     = var.allow_squash_merge == null ? lookup(var.defaults, "allow_squash_merge", false) : var.allow_squash_merge
+  allow_update_branch    = var.allow_update_branch == null ? lookup(var.defaults, "allow_update_branch", false) : var.allow_update_branch
   allow_auto_merge       = var.allow_auto_merge == null ? lookup(var.defaults, "allow_auto_merge", false) : var.allow_auto_merge
   delete_branch_on_merge = var.delete_branch_on_merge == null ? lookup(var.defaults, "delete_branch_on_merge", true) : var.delete_branch_on_merge
   is_template            = var.is_template == null ? lookup(var.defaults, "is_template", false) : var.is_template
@@ -65,6 +66,7 @@ locals {
       merge({
         strict   = null
         contexts = []
+        checks   = []
     }, b.required_status_checks)] : []
   ]
 
@@ -106,6 +108,7 @@ resource "github_repository" "repository" {
   allow_merge_commit     = local.allow_merge_commit
   allow_rebase_merge     = local.allow_rebase_merge
   allow_squash_merge     = local.allow_squash_merge
+  allow_update_branch    = local.allow_update_branch
   allow_auto_merge       = local.allow_auto_merge
   delete_branch_on_merge = local.delete_branch_on_merge
   is_template            = local.is_template
@@ -147,9 +150,8 @@ resource "github_repository" "repository" {
           path   = try(var.pages.path, "/")
         }
       }
-
-      build_type = try(var.pages.build_type, null)
       cname      = try(var.pages.cname, null)
+      build_type = try(var.pages.build_type, null)
     }
   }
 
@@ -223,9 +225,19 @@ resource "github_branch_protection" "branch_protection" {
   allows_deletions                = try(var.branch_protections_v4[each.value].allows_deletions, false)
   allows_force_pushes             = try(var.branch_protections_v4[each.value].allows_force_pushes, false)
   enforce_admins                  = try(var.branch_protections_v4[each.value].enforce_admins, true)
+  force_push_bypassers            = try(var.branch_protections_v4[each.value].force_push_bypassers, [])
   require_conversation_resolution = try(var.branch_protections_v4[each.value].require_conversation_resolution, false)
   require_signed_commits          = try(var.branch_protections_v4[each.value].require_signed_commits, false)
   required_linear_history         = try(var.branch_protections_v4[each.value].required_linear_history, false)
+
+  dynamic "restrict_pushes" {
+    for_each = try(var.branch_protections_v4[each.value].blocks_creations, false) || length(try(var.branch_protections_v4[each.value].push_restrictions, [])) > 0 ? [1] : []
+
+    content {
+      blocks_creations = try(var.branch_protections_v4[each.value].blocks_creations, false)
+      push_allowances  = try(var.branch_protections_v4[each.value].push_restrictions, [])
+    }
+  }
 
   dynamic "required_pull_request_reviews" {
     for_each = try([var.branch_protections_v4[each.value].required_pull_request_reviews], [])
@@ -280,6 +292,7 @@ resource "github_branch_protection_v3" "branch_protection" {
     content {
       strict   = required_status_checks.value.strict
       contexts = required_status_checks.value.contexts
+      checks   = required_status_checks.value.checks
     }
   }
 
