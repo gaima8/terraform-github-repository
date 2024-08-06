@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.1]
+
+### Changed
+
+  JonathanSerafini: update for terraform provider 6.x fixing pages
+  JonathanSerafini: add web_commit_signoff_required
+
 ## [0.19.0]
 
 ### Changed
