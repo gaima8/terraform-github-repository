@@ -130,6 +130,25 @@ variable "pages" {
   # })
   type    = any
   default = null
+
+  validation {
+    condition = var.pages == null || (
+      can(var.pages.build_type) && (
+        var.pages.build_type == "workflow" ||
+        var.pages.build_type == "legacy"
+      )
+    )
+    error_message = "The 'pages' configuration must be null, or an object where 'build_type' is either 'workflow' or 'legacy'."
+  }
+
+  validation {
+    condition = var.pages == null || (
+      var.pages.build_type != "legacy" || (
+        can(var.pages.branch) && var.pages.branch != ""
+      )
+    )
+    error_message = "For 'legacy' build_type in the 'pages' configuration, a 'branch' must be specified."
+  }
 }
 
 variable "gitignore_template" {
