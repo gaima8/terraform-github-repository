@@ -122,14 +122,37 @@ variable "auto_init" {
 
 variable "pages" {
   description = "(Optional) The repository's GitHub Pages configuration. (Default: {})"
-  # type = object({
-  # branch     = string
-  # path       = string or null
-  # cname      = string
-  # build_type = workflow or legacy (requires branch and optional path )
-  # })
-  type    = any
+  type = object({
+    branch     = optional(string)
+    path       = optional(string, null)
+    cname      = optional(string)
+    build_type = optional(string, "legacy") # requires branch and optional path
+  })
   default = null
+
+  validation {
+    condition = (
+      var.pages == null
+      ||
+      contains(["workflow", "legacy"], try(var.pages.build_type, "legacy"))
+    )
+
+    error_message = "The 'build_type' value must be either 'workflow' or 'legacy'."
+  }
+
+  validation {
+    condition = (
+      var.pages == null
+      ||
+      try(var.pages.build_type, "legacy") != "legacy"
+      ||
+      (
+        try(trim(var.pages.branch, " "), "") != ""
+      )
+    )
+
+    error_message = "When 'build_type' is 'legacy' (or default), a branch must be specified."
+  }
 }
 
 variable "gitignore_template" {
