@@ -122,32 +122,36 @@ variable "auto_init" {
 
 variable "pages" {
   description = "(Optional) The repository's GitHub Pages configuration. (Default: {})"
-  # type = object({
-  # branch     = string
-  # path       = string or null
-  # cname      = string
-  # build_type = workflow or legacy (requires branch and optional path )
-  # })
-  type    = any
+  type = object({
+    branch     = optional(string)
+    path       = optional(string, null)
+    cname      = optional(string)
+    build_type = optional(string, "legacy") # requires branch and optional path
+  })
   default = null
 
   validation {
-    condition = var.pages == null || (
-      can(var.pages.build_type) && (
-        var.pages.build_type == "workflow" ||
-        var.pages.build_type == "legacy"
-      )
+    condition = (
+      var.pages == null
+      ||
+      contains(["workflow", "legacy"], var.pages.build_type)
     )
-    error_message = "The 'pages' configuration must be null, or an object where 'build_type' is either 'workflow' or 'legacy'."
+
+    error_message = "The 'build_type' value must be either 'workflow' or 'legacy'."
   }
 
   validation {
-    condition = var.pages == null || (
-      var.pages.build_type != "legacy" || (
-        can(var.pages.branch) && var.pages.branch != ""
+    condition = (
+      var.pages == null
+      ||
+      var.pages.build_type != "legacy"
+      ||
+      (
+        try(trim(var.pages.branch, " "), "") != ""
       )
     )
-    error_message = "For 'legacy' build_type in the 'pages' configuration, a 'branch' must be specified."
+
+    error_message = "When 'build_type' is 'legacy' (or default), a branch must be specified."
   }
 }
 
