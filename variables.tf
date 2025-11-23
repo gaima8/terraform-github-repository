@@ -612,6 +612,122 @@ variable "variables" {
   }
 }
 
+variable "rulesets" {
+  description = "(Optional) A list of branch rulesets to apply to the repository. Default is []."
+  default     = []
+  type = list(
+    object({
+      enforcement = string
+      name        = string
+      target      = string
+      repository  = optional(string)
+
+      rules = list(
+        object({
+          creation                      = optional(bool)
+          deletion                      = optional(bool)
+          non_fast_forward              = optional(bool)
+          required_signatures           = optional(bool)
+          required_linear_history       = optional(bool)
+          update                        = optional(bool)
+          update_allows_fetch_and_merge = optional(bool)
+
+          branch_name_pattern = optional(
+            object({
+              operator = string
+              pattern  = string
+              name     = optional(string)
+              negate   = optional(bool)
+            })
+          )
+
+          tag_name_pattern = optional(
+            object({
+              operator = string
+              pattern  = string
+              name     = optional(string)
+              negate   = optional(bool)
+            })
+          )
+
+          required_status_checks = optional(
+            object({
+              strict_required_status_checks_policy = optional(bool)
+              do_not_enforce_on_create             = optional(bool)
+              required_check = list(
+                object({
+                  context        = string
+                  integration_id = optional(number)
+                })
+              )
+            })
+          )
+
+          pull_request = optional(
+            object({
+              dismiss_stale_reviews_on_push     = optional(bool)
+              require_code_owner_review         = optional(bool)
+              require_last_push_approval        = optional(bool)
+              required_approving_review_count   = optional(number)
+              required_review_thread_resolution = optional(bool)
+            })
+          )
+        })
+      )
+
+      bypass_actors = optional(
+        list(
+          object({
+            actor_id    = number
+            actor_type  = string
+            bypass_mode = optional(string)
+          })
+        )
+      )
+
+      conditions = optional(
+        object({
+          ref_name = object({
+            include = list(string)
+            exclude = list(string)
+          })
+        })
+      )
+    })
+  )
+
+  validation {
+    condition = alltrue([
+      for rs in var.rulesets :
+      contains(["disabled", "active", "evaluate"], rs.enforcement)
+    ])
+    error_message = "Each ruleset.enforcement must be one of: disabled, active, evaluate."
+  }
+
+  validation {
+    condition = alltrue([
+      for rs in var.rulesets :
+      contains(["branch", "tag", "push"], rs.target)
+    ])
+    error_message = "Each ruleset.target must be one of: branch, tag, or push."
+  }
+
+  validation {
+    condition = alltrue(
+      flatten([
+        for rs in var.rulesets : [
+          for ba in coalesce(rs.bypass_actors, []) :
+          contains(
+            ["RepositoryRole", "Team", "Integration", "OrganizationAdmin", "DeployKey"],
+            ba.actor_type
+          )
+        ]
+      ])
+    )
+    error_message = "Each bypass_actors.actor_type must be one of: RepositoryRole, Team, Integration, OrganizationAdmin, DeployKey."
+  }
+}
+
 # ------------------------------------------------------------------------------
 # MODULE CONFIGURATION PARAMETERS
 # These variables are used to configure the module.
