@@ -28,12 +28,6 @@ variable "has_issues" {
   default     = true
 }
 
-variable "has_projects" {
-  description = "Set to true to enable the GitHub Projects features on the repository."
-  type        = bool
-  default     = true
-}
-
 variable "has_wiki" {
   description = "Set to true to enable the GitHub Wiki features on the repository."
   type        = bool
@@ -92,15 +86,6 @@ variable "license_template" {
   description = "Use the name of the template without the extension. For example, 'mit' or 'mpl-2.0'. Available licences: https://github.com/github/choosealicense.com/tree/gh-pages/_licenses"
   type        = string
   default     = "mit"
-}
-
-variable "projects" {
-  description = "A list of projects to create."
-  type = list(object({
-    name = string,
-    body = string
-  }))
-  default = []
 }
 
 variable "issue_labels" {

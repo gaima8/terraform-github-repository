@@ -34,7 +34,6 @@ module "repository" {
   homepage_url           = var.url
   private                = false
   has_issues             = var.has_issues
-  has_projects           = var.has_projects
   has_wiki               = var.has_wiki
   allow_merge_commit     = var.allow_merge_commit
   allow_rebase_merge     = var.allow_rebase_merge
@@ -152,8 +151,6 @@ module "repository" {
     },
     tls_private_key.deploy[1].public_key_openssh
   ]
-
-  projects = var.projects
 
   autolink_references = var.autolink_references
 
