@@ -132,7 +132,7 @@ variable "rulesets" {
       bypass_actors = optional(
         list(
           object({
-            actor_id    = number
+            actor_id    = optional(number)
             actor_type  = string
             bypass_mode = optional(string)
           })
@@ -177,14 +177,38 @@ variable "rulesets" {
     condition = alltrue(
       flatten([
         for rs in var.rulesets : [
-          for ba in coalesce(rs.bypass_actors, []) :
-          contains(
-            ["RepositoryRole", "Team", "Integration", "OrganizationAdmin", "DeployKey"],
-            ba.actor_type
+          for ba in coalesce(rs.bypass_actors, []) : (
+            # For Integration/RepositoryRole/Team → actor_id required
+            (
+              contains(["Integration", "RepositoryRole", "Team"], ba.actor_type)
+              ? ba.actor_id != null
+              : true
+            )
+            &&
+            # For OrganizationAdmin → actor_id must be 1
+            (
+              ba.actor_type == "OrganizationAdmin"
+              ? ba.actor_id == 1
+              : true
+            )
+            &&
+            # For DeployKey → actor_id must be null
+            (
+              ba.actor_type == "DeployKey"
+              ? ba.actor_id == null
+              : true
+            )
           )
         ]
       ])
     )
-    error_message = "Each bypass_actors.actor_type must be one of: RepositoryRole, Team, Integration, OrganizationAdmin, DeployKey."
+
+    error_message = <<EOF
+Invalid bypass_actors configuration:
+
+• Integration, RepositoryRole, and Team require a non-null actor_id.
+• OrganizationAdmin requires actor_id = 1.
+• DeployKey requires actor_id = null.
+EOF
   }
 }
