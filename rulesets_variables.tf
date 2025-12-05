@@ -1,4 +1,3 @@
-
 variable "rulesets" {
   description = "(Optional) A list of branch rulesets to apply to the repository. Default is []."
   default     = []
