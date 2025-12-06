@@ -81,7 +81,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 ## Main Resource Configuration
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ### Requirements
 
 | Name | Version |
@@ -208,7 +208,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 | <a name="output_secrets"></a> [secrets](#output\_secrets) | List of secrets available. |
 | <a name="output_ssh_clone_url"></a> [ssh\_clone\_url](#output\_ssh\_clone\_url) | URL that can be provided to git clone to clone the repository via SSH. |
 | <a name="output_webhooks"></a> [webhooks](#output\_webhooks) | All attributes and arguments as returned by the github\_repository\_webhook resource. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## External Documentation
 
