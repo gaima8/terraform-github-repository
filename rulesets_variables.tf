@@ -1,5 +1,10 @@
 variable "rulesets" {
-  description = "(Optional) A list of branch rulesets to apply to the repository. Default is []."
+  description = <<EOF
+(Optional) A list of branch rulesets to apply to the repository. Default is [].
+
+It is very likely removal of any section will require setting it to an empty list/map.
+This is due to limitations in the API whereby components are not destroyed upon removal.
+EOF
   default     = []
   type = list(
     object({
