@@ -8,10 +8,9 @@ We welcome and appreciate any and all contributions via
 2. [Fork the repository on GitHub](#fork-the-repository-on-github)
 3. [Install the pre-commit hooks](#install-the-pre-commit-hooks)
 4. [Update the documentation](#update-the-documentation)
-5. [Update the tests](#update-the-tests)
-6. [Update the code](#update-the-code)
-7. [Create a pull request](#create-a-pull-request)
-8. [Merge and release](#merge-and-release)
+5. [Update the code](#update-the-code)
+6. [Create a pull request](#create-a-pull-request)
+7. [Merge and release](#merge-and-release)
 
 ## Open a GitHub issue
 
@@ -42,18 +41,6 @@ We encourage you to update the documentation before writing any code (please see
 documentation stays up to date and allows you to think through the problem fully before you begin implementing any
 changes.
 
-## Update the tests
-
-We also recommend updating the automated tests before updating any code
-(see [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)).
-
-That means that you should add or update a test case, run all tests and verify
-that the new test fails with a clear error message and then start implementing
-the code changes to get that test to pass.
-
-The test folder in every repository will have documentation on how to run the
-tests locally.
-
 ## Update the code
 
 At this point, make your code changes and constantly test again your new test case to make sure that everything working
@@ -73,12 +60,16 @@ Please make sure to include the following:
 ## Merge and release
 
 The [CODEOWNERS] of the repository will review your code and provide feedback.
-If everything looks good, they will merge the code and release a new version while following the principles of [Semantic Versioning (SemVer)].
+If everything looks good, they will merge the code and potentially release a new version while following the principles of [Semantic Versioning (SemVer)].
+
+### Releases
+
+Release Please will create and update a pull request, which updates the CHANGELOG and prepares for a release. A [CODEOWNERS] will merge this at their discretion to action a release.
 
 <!-- References -->
 
-[pull requests]: https://github.com/mineiros-io/terraform-github-repository/pulls
-[pre-commit-file]: https://github.com/mineiros-io/terraform-github-repository/blob/main/.pre-commit-config.yaml
+[pull requests]: https://github.com/gaima8/terraform-github-repository/pulls
+[pre-commit-file]: https://github.com/gaima8/terraform-github-repository/blob/main/.pre-commit-config.yaml
 [github flow]: https://guides.github.com/introduction/flow/
 [codeowners]: https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
 [fork]: https://help.github.com/en/github/getting-started-with-github/fork-a-repo
