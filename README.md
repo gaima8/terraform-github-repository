@@ -51,7 +51,7 @@ features like Branch Protection or Collaborator Management.
   Collaborators,
   Teams,
   Deploy Keys,
-  Projects,
+  Rulesets,
   Repository Webhooks,
   GitHub App Installations
 
@@ -218,7 +218,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_deploy_key
-- https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_project
+- https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_ruleset
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_autolink_reference
 
 ## Module Versioning
