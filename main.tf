@@ -1,7 +1,8 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CREATE A GITHUB REPOSITORY
-# This module creates a GitHub repository with opinionated default settings.
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * # CREATE A GITHUB REPOSITORY
+ *
+ * This module creates a GitHub repository with opinionated default settings.
+ */
 
 # Set some opinionated default settings through var.defaults and locals
 locals {
