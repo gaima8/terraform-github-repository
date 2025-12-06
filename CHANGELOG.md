@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0](https://github.com/gaima8/terraform-github-repository/compare/v0.19.2...v0.20.0) (2025-12-06)
+
+
+### Features
+
+* Add repository rulesets ([#12](https://github.com/gaima8/terraform-github-repository/issues/12)) ([e8cf32e](https://github.com/gaima8/terraform-github-repository/commit/e8cf32e4fabe7e8dd1279118626ea6ced78ba5ab))
+* Drop projects ([#9](https://github.com/gaima8/terraform-github-repository/issues/9)) ([13c8f36](https://github.com/gaima8/terraform-github-repository/commit/13c8f3630682f4718a4d9385335aae775235b306))
+
+
+### Bug Fixes
+
+* Validate 'pages' is defined correctly. ([#8](https://github.com/gaima8/terraform-github-repository/issues/8)) ([7a87fc2](https://github.com/gaima8/terraform-github-repository/commit/7a87fc24e4b44a7cffcc00ee0c25e6d57781e1f7))
+
 ## [Unreleased]
 
 ## [0.19.1]
