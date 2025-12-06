@@ -1,24 +1,23 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/gaima8/terraform-github-repository.svg?label=latest&sort=semver)](https://github.com/gaima8/terraform-github-repository/releases)
-[![Terraform Version](https://img.shields.io/badge/terraform-1.x-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
+[![Terraform Version](https://img.shields.io/badge/terraform-1.3-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
 [![Github Provider Version](https://img.shields.io/badge/GH-6.2+-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-github/releases)
 
 # terraform-github-repository
 
 A [Terraform] module for creating a public or private repository on [Github].
 
-**_This module supports Terraform v1.x and is compatible with the Official Terraform GitHub Provider v6.2 and above from `integrations/github`._**
+**_This module supports Terraform >=v1.3 and is compatible with the Official Terraform GitHub Provider v6.2 and above from `integrations/github`._**
 
 - [terraform-github-repository](#terraform-github-repository)
   - [Module Features](#module-features)
   - [Getting Started](#getting-started)
   - [Module Argument Reference](#module-argument-reference)
-    - [Main Resource Configuration](#main-resource-configuration)
-- [CREATE A GITHUB REPOSITORY](#create-a-github-repository)
-  - [Requirements](#requirements)
-  - [Providers](#providers)
-  - [Resources](#resources)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
+  - [Main Resource Configuration](#main-resource-configuration)
+    - [Requirements](#requirements)
+    - [Providers](#providers)
+    - [Resources](#resources)
+    - [Inputs](#inputs)
+    - [Outputs](#outputs)
   - [External Documentation](#external-documentation)
     - [Terraform Github Provider Documentation](#terraform-github-provider-documentation)
   - [Module Versioning](#module-versioning)
@@ -80,27 +79,23 @@ module "repository" {
 
 See [variables.tf] and [examples/] for details and use-cases.
 
-### Main Resource Configuration
+## Main Resource Configuration
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-# CREATE A GITHUB REPOSITORY
-
-This module creates a GitHub repository with opinionated default settings.
-
-## Requirements
+### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 7.0 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_github"></a> [github](#provider\_github) | >= 6.2, < 7.0 |
 
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -127,7 +122,7 @@ This module creates a GitHub repository with opinionated default settings.
 | [github_organization_teams.all](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/organization_teams) | data source |
 | [github_user.user](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/user) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -196,7 +191,7 @@ This module creates a GitHub repository with opinionated default settings.
 | <a name="input_web_commit_signoff_required"></a> [web\_commit\_signoff\_required](#input\_web\_commit\_signoff\_required) | (Optional) Require contributors to sign off on web-based commits. | `bool` | `null` | no |
 | <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | (Optional) Configuring webhooks. For details please check: https://www.terraform.io/docs/providers/github/r/repository_webhook.html | `any` | `[]` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|

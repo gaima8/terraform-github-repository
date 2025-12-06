@@ -2,3 +2,4 @@ formatter: "markdown document"
 settings:
   hide-empty: true
   lockfile: false
+  indent: 3
