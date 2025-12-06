@@ -119,11 +119,10 @@ Run `terraform destroy` to destroy all resources again.
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-The following requirements are needed by this module:
-
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
-
-- <a name="requirement_github"></a> [github](#requirement\_github) (~> 4.0)
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | ~> 4.0 |
 
 ## Providers
 
@@ -131,31 +130,18 @@ No providers.
 
 ## Modules
 
-The following Modules are called:
-
-### <a name="module_repository"></a> [repository](#module\_repository)
-
-Source: mineiros-io/repository/github
-
-Version: ~> 0.13.0
-
-### <a name="module_team"></a> [team](#module\_team)
-
-Source: mineiros-io/team/github
-
-Version: ~> 0.8.0
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_repository"></a> [repository](#module\_repository) | mineiros-io/repository/github | ~> 0.13.0 |
+| <a name="module_team"></a> [team](#module\_team) | mineiros-io/team/github | ~> 0.8.0 |
 
 ## Resources
 
 No resources.
 
-## Required Inputs
+## Inputs
 
-No required inputs.
-
-## Optional Inputs
-
-No optional inputs.
+No inputs.
 
 ## Outputs
 

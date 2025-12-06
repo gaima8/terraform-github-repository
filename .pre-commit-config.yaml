@@ -14,5 +14,4 @@ repos:
       - id: terraform_docs
         args:
           - --hook-config=--add-to-existing-file=true
-          - --args=document
       - id: terraform_validate
