@@ -4,13 +4,15 @@ First and foremost, we’d like to express our gratitude to you for taking the t
 We welcome and appreciate any and all contributions via
 [Pull Requests] along the [GitHub Flow].
 
-1. [Open a GitHub issue](#open-a-github-issue)
-2. [Fork the repository on GitHub](#fork-the-repository-on-github)
-3. [Install the pre-commit hooks](#install-the-pre-commit-hooks)
-4. [Update the documentation](#update-the-documentation)
-5. [Update the code](#update-the-code)
-6. [Create a pull request](#create-a-pull-request)
-7. [Merge and release](#merge-and-release)
+- [Contribution Guidelines](#contribution-guidelines)
+  - [Open a GitHub issue](#open-a-github-issue)
+  - [Fork the repository on GitHub](#fork-the-repository-on-github)
+  - [Install the pre-commit hooks](#install-the-pre-commit-hooks)
+  - [Update the documentation](#update-the-documentation)
+  - [Update the code](#update-the-code)
+  - [Create a pull request](#create-a-pull-request)
+  - [Merge and release](#merge-and-release)
+    - [Releases](#releases)
 
 ## Open a GitHub issue
 
