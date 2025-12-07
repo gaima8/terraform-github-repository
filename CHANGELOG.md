@@ -424,7 +424,7 @@ Please review plans and report regressions and issues asap so we can improve doc
   creating and managing GitHub Repositories for Organizations.
 
 [0.19.2]: https://github.com/gaima8/terraform-github-repository/compare/v0.19.1...v0.19.2
-[0.19.1]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.19.0...v0.19.1
+[0.19.1]: https://github.com/gaima8/terraform-github-repository/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.2...v0.17.0
