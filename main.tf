@@ -154,18 +154,34 @@ resource "github_repository" "repository" {
   }
 
   dynamic "security_and_analysis" {
-    for_each = var.security_and_analysis != null ? [true] : []
+    for_each = [local.security_and_analysis]
 
     content {
-      advanced_security {
-        status = var.security_and_analysis.advanced_security
+      dynamic "advanced_security" {
+        for_each = var.visibility == "public" ? [] : [local.advanced_security_status]
+        content {
+          status = advanced_security.value
+        }
       }
+
       secret_scanning {
-        status = var.security_and_analysis.secret_scanning
+        status = local.security_and_analysis.secret_scanning
       }
+
       secret_scanning_push_protection {
-        status = var.security_and_analysis.secret_scanning_push_protection
+        status = local.security_and_analysis.secret_scanning_push_protection
       }
+
+      # code_security, secret_scanning_ai_detection, and secret_scanning_non_provider_patterns require integrations/github >= 6.9
+      # code_security {
+      #   status = local.security_and_analysis.code_security
+      # }
+      # secret_scanning_ai_detection {
+      #   status = local.security_and_analysis.secret_scanning_ai_detection
+      # }
+      # secret_scanning_non_provider_patterns {
+      #   status = local.security_and_analysis.secret_scanning_non_provider_patterns
+      # }
     }
   }
 
@@ -176,6 +192,10 @@ resource "github_repository" "repository" {
       gitignore_template,
       template,
     ]
+    precondition {
+      condition     = local.security_and_analysis.org_advanced_security || !local.saa_child_enabled || var.visibility == "public"
+      error_message = "security_and_analysis: Repository visibility must be 'public' if any security feature is enabled unless org_advanced_security is true."
+    }
   }
 }
 

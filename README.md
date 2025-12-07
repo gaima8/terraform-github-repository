@@ -88,13 +88,14 @@ See [variables.tf] and [examples/] for details and use-cases.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 7.0 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 6.9 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2 |
 
 ### Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | >= 6.2, < 7.0 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 6.2, < 6.9 |
 
 ### Resources
 
@@ -179,7 +180,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 | <a name="input_push_team_ids"></a> [push\_team\_ids](#input\_push\_team\_ids) | (Optional) A list of teams (by id) to grant push (read-write) permission to. | `list(string)` | `[]` | no |
 | <a name="input_push_teams"></a> [push\_teams](#input\_push\_teams) | (Optional) A list of teams (by name/slug) to grant push (read-write) permission to. | `list(string)` | `[]` | no |
 | <a name="input_rulesets"></a> [rulesets](#input\_rulesets) | (Optional) A list of branch rulesets to apply to the repository. Default is [].<br/><br/>It is very likely removal of any section will require setting it to an empty list/map.<br/>This is due to limitations in the API whereby components are not destroyed upon removal. | <pre>list(<br/>    object({<br/>      enforcement = string<br/>      name        = string<br/>      target      = string<br/><br/>      rules = list(<br/>        object({<br/>          creation                      = optional(bool)<br/>          deletion                      = optional(bool)<br/>          non_fast_forward              = optional(bool)<br/>          required_signatures           = optional(bool)<br/>          required_linear_history       = optional(bool)<br/>          update                        = optional(bool)<br/>          update_allows_fetch_and_merge = optional(bool)<br/><br/>          branch_name_pattern = optional(<br/>            object({<br/>              operator = string<br/>              pattern  = string<br/>              name     = optional(string)<br/>              negate   = optional(bool)<br/>            })<br/>          )<br/><br/>          commit_author_email_pattern = optional(<br/>            object({<br/>              operator = string<br/>              pattern  = string<br/>              name     = optional(string)<br/>              negate   = optional(bool)<br/>            })<br/>          )<br/><br/>          commit_message_pattern = optional(<br/>            object({<br/>              operator = string<br/>              pattern  = string<br/>              name     = optional(string)<br/>              negate   = optional(bool)<br/>            })<br/>          )<br/><br/>          committer_email_pattern = optional(<br/>            object({<br/>              operator = string<br/>              pattern  = string<br/>              name     = optional(string)<br/>              negate   = optional(bool)<br/>            })<br/>          )<br/><br/>          tag_name_pattern = optional(<br/>            object({<br/>              operator = string<br/>              pattern  = string<br/>              name     = optional(string)<br/>              negate   = optional(bool)<br/>            })<br/>          )<br/><br/>          required_status_checks = optional(<br/>            object({<br/>              strict_required_status_checks_policy = optional(bool)<br/>              do_not_enforce_on_create             = optional(bool)<br/>              required_check = list(<br/>                object({<br/>                  context        = string<br/>                  integration_id = optional(number)<br/>                })<br/>              )<br/>            })<br/>          )<br/><br/>          pull_request = optional(<br/>            object({<br/>              dismiss_stale_reviews_on_push     = optional(bool)<br/>              require_code_owner_review         = optional(bool)<br/>              require_last_push_approval        = optional(bool)<br/>              required_approving_review_count   = optional(number)<br/>              required_review_thread_resolution = optional(bool)<br/>            })<br/>          )<br/><br/>          required_workflows = optional(<br/>            object({<br/>              required_workflow = list(<br/>                object({<br/>                  repository_id = number<br/>                  ref           = string<br/>                  path          = string<br/>                })<br/>              )<br/>            })<br/>          )<br/><br/>          required_deployments = optional(<br/>            object({<br/>              required_deployment_environments = list(string)<br/>            })<br/>          )<br/><br/>          required_code_scanning = optional(<br/>            object({<br/>              required_code_scanning_tool = list(<br/>                object({<br/>                  tool                      = string<br/>                  alerts_threshold          = string<br/>                  security_alerts_threshold = string<br/>                })<br/>              )<br/>            })<br/>          )<br/><br/>          merge_queue = optional(<br/>            object({<br/>              check_response_timeout_minutes    = optional(number)<br/>              grouping_strategy                 = optional(string)<br/>              max_entries_to_build              = optional(number)<br/>              max_entries_to_merge              = optional(number)<br/>              merge_method                      = optional(string)<br/>              min_entries_to_merge              = optional(number)<br/>              min_entries_to_merge_wait_minutes = optional(number)<br/>            })<br/>          )<br/>        })<br/>      )<br/><br/>      bypass_actors = optional(<br/>        list(<br/>          object({<br/>            actor_id    = optional(number)<br/>            actor_type  = string<br/>            bypass_mode = optional(string)<br/>          })<br/>        )<br/>      )<br/><br/>      conditions = optional(<br/>        object({<br/>          ref_name = object({<br/>            include = list(string)<br/>            exclude = list(string)<br/>          })<br/>        })<br/>      )<br/>    })<br/>  )</pre> | `[]` | no |
-| <a name="input_security_and_analysis"></a> [security\_and\_analysis](#input\_security\_and\_analysis) | (Optional) Security and analysis configuration block | <pre>object({<br/>    advanced_security               = optional(string, "disabled")<br/>    secret_scanning                 = optional(string, "disabled")<br/>    secret_scanning_push_protection = optional(string, "disabled")<br/>  })</pre> | `{}` | no |
+| <a name="input_security_and_analysis"></a> [security\_and\_analysis](#input\_security\_and\_analysis) | (Optional) Security and analysis configuration for the repository.<br/><br/>- All fields except org\_advanced\_security are strings: "enabled" or "disabled".<br/>- org\_advanced\_security is a bool indicating whether the org has split licensing for Advanced Security. | <pre>object({<br/>    org_advanced_security                 = optional(bool, false)<br/>    advanced_security                     = optional(string, "disabled")<br/>    code_security                         = optional(string, "disabled")<br/>    secret_scanning                       = optional(string, "disabled")<br/>    secret_scanning_push_protection       = optional(string, "disabled")<br/>    secret_scanning_ai_detection          = optional(string, "disabled")<br/>    secret_scanning_non_provider_patterns = optional(string, "disabled")<br/>  })</pre> | `null` | no |
 | <a name="input_squash_merge_commit_message"></a> [squash\_merge\_commit\_message](#input\_squash\_merge\_commit\_message) | (Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message. | `string` | `"COMMIT_MESSAGES"` | no |
 | <a name="input_squash_merge_commit_title"></a> [squash\_merge\_commit\_title](#input\_squash\_merge\_commit\_title) | (Optional) Can be `PR_BODY`, `COMMIT_MESSAGES`, or `BLANK` for a default squash merge commit message. | `string` | `"COMMIT_OR_PR_TITLE"` | no |
 | <a name="input_template"></a> [template](#input\_template) | (Optional) Template repository to use. (Default: {}) | <pre>object({<br/>    owner      = string<br/>    repository = string<br/>  })</pre> | `null` | no |
@@ -219,23 +220,29 @@ See [variables.tf] and [examples/] for details and use-cases.
   (Optional) The repository's [security and analysis](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository) configuration.
   See [Security and Analysis Configuration](#security-and-analysis-configuration) below for details.
 
-  Default is `{}`.
+  Default is `null`.
 
   The `security_and_analysis` object accepts the following attributes:
 
-  - [**`advanced_security`**](#attr-security_and_analysis-advanced_security): *(**Required** `string`)*<a name="attr-security_and_analysis-advanced_security"></a>
+  - [**`org_advanced_security`**](#attr-security_and_analysis-org_advanced_security: *(**Optional** `bool`)*<a name="attr-security_and_analysis-org_advanced_security"></a>
+
+    If your GitHub Organization has split licensing for Advanced Security you can have Security and Analysis on non-public repositories. Otherwise Security and Analysis operates on all public repositories.
+
+    Define `org_advanced_security` as true to give more visibility options.
+
+  - [**`advanced_security`**](#attr-security_and_analysis-advanced_security): *(**Optional** `string`)*<a name="attr-security_and_analysis-advanced_security"></a>
 
     The advanced security configuration for the repository. See [Advanced Security Configuration](#advanced-security-configuration) below for details.
 
-    Default is `"disabled"`.
+    Default is `"disabled"`, except if `org_advanced_security` is not true when it is `"enabled"`.
 
-  - [**`secret_scanning`**](#attr-security_and_analysis-secret_scanning): *(**Required** `string`)*<a name="attr-security_and_analysis-secret_scanning"></a>
+  - [**`secret_scanning`**](#attr-security_and_analysis-secret_scanning): *(**Optional** `string`)*<a name="attr-security_and_analysis-secret_scanning"></a>
 
     The secret scanning configuration for the repository. See [Secret Scanning Configuration](#secret-scanning-configuration) below for details.
 
     Default is `"disabled"`.
 
-  - [**`secret_scanning_push_protection`**](#attr-security_and_analysis-secret_scanning_push_protection): *(**Required** `string`)*<a name="attr-security_and_analysis-secret_scanning_push_protection"></a>
+  - [**`secret_scanning_push_protection`**](#attr-security_and_analysis-secret_scanning_push_protection): *(**Optional** `string`)*<a name="attr-security_and_analysis-secret_scanning_push_protection"></a>
 
     The secret scanning push protection configuration for the repository. See [Secret Scanning Push Protection Configuration](#secret-scanning-push-protection-configuration) below for details.
 
