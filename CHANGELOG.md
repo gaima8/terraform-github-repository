@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.19.2]
+
+### Features
+
+* Various updates ([#7](https://github.com/gaima8/terraform-github-repository/issues/7)) ([035f478](https://github.com/gaima8/terraform-github-repository/commit/035f4788abc91fbc0a81d3cb6bb7480fb1d137d1))
 
 ## [0.19.1]
 
@@ -419,7 +423,8 @@ Please review plans and report regressions and issues asap so we can improve doc
 - This is the initial release of our GitHub Repository module with support for
   creating and managing GitHub Repositories for Organizations.
 
-[unreleased]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.19.0...HEAD
+[0.19.2]: https://github.com/gaima8/terraform-github-repository/compare/v0.19.1...v0.19.2
+[0.19.1]: https://github.com/gaima8/terraform-github-repository/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/mineiros-io/terraform-github-repository/compare/v0.16.2...v0.17.0

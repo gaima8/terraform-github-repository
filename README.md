@@ -1,68 +1,30 @@
-[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-github-repository)
-
-[![Build Status](https://github.com/mineiros-io/terraform-github-repository/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/mineiros-io/terraform-github-repository/actions)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-github-repository.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-github-repository/releases)
-[![Terraform Version](https://img.shields.io/badge/terraform-1.x-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
-[![Github Provider Version](https://img.shields.io/badge/GH-4.31+-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-github/releases)
-[![Join Slack](https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack)](https://join.slack.com/t/mineiros-community/shared_invite/zt-ehidestg-aLGoIENLVs6tvwJ11w9WGg)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/gaima8/terraform-github-repository.svg?label=latest&sort=semver)](https://github.com/gaima8/terraform-github-repository/releases)
+[![Terraform Version](https://img.shields.io/badge/terraform-1.3-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
+[![Github Provider Version](https://img.shields.io/badge/GH-6.2+-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-github/releases)
 
 # terraform-github-repository
 
 A [Terraform] module for creating a public or private repository on [Github].
 
-**_This module supports Terraform v1.x and is compatible with the Official Terraform GitHub Provider v4.31 and above from `integrations/github`._**
+**_This module supports Terraform >=v1.3 and is compatible with the Official Terraform GitHub Provider v6.2 and above from `integrations/github`._**
 
-**Attention: This module is incompatible with the Hashicorp GitHub Provider! The latest version of this module supporting `hashicorp/github` provider is `~> 0.10.0`**
-
-** Note: Versions 5.3.0, 5.4.0, 5.5.0, and 5.6.0 of the Terraform Github Provider have broken branch protections support and should not be used.**
-
-
-- [GitHub as Code](#github-as-code)
-- [Module Features](#module-features)
-- [Getting Started](#getting-started)
-- [Module Argument Reference](#module-argument-reference)
+- [terraform-github-repository](#terraform-github-repository)
+  - [Module Features](#module-features)
+  - [Getting Started](#getting-started)
+  - [Module Argument Reference](#module-argument-reference)
   - [Main Resource Configuration](#main-resource-configuration)
-  - [Extended Resource Configuration](#extended-resource-configuration)
-    - [Repository Creation Configuration](#repository-creation-configuration)
-    - [Teams Configuration](#teams-configuration)
-    - [Collaborator Configuration](#collaborator-configuration)
-    - [Branches Configuration](#branches-configuration)
-    - [Deploy Keys Configuration](#deploy-keys-configuration)
-    - [Branch Protections v3 Configuration](#branch-protections-v3-configuration)
-    - [Branch Protections v4 Configuration](#branch-protections-v4-configuration)
-    - [Issue Labels Configuration](#issue-labels-configuration)
-    - [Projects Configuration](#projects-configuration)
-    - [Webhooks Configuration](#webhooks-configuration)
-    - [Secrets Configuration](#secrets-configuration)
-    - [Autolink References Configuration](#autolink-references-configuration)
-    - [App Installations](#app-installations)
-  - [Module Configuration](#module-configuration)
-- [Module Outputs](#module-outputs)
-- [External Documentation](#external-documentation)
-  - [Terraform Github Provider Documentation](#terraform-github-provider-documentation)
-- [Module Versioning](#module-versioning)
-  - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
-- [About Mineiros](#about-mineiros)
-- [Reporting Issues](#reporting-issues)
-- [Contributing](#contributing)
-- [Makefile Targets](#makefile-targets)
-- [License](#license)
-
-## GitHub as Code
-
-[GitHub as Code][github-as-code] is a commercial solution built on top of
-our open-source Terraform modules for GitHub. It helps our customers to
-manage their GitHub organization more efficiently by enabling anyone in
-their organization to **self-service** manage **on- and offboarding of users**,
-**repositories**, and settings such as **branch protections**, **secrets**, and more
-through code. GitHub as Code comes with **pre-configured GitHub Actions
-pipelines** for **change pre-view in Pull Requests**, **fully automated
-rollouts** and **rollbacks**. It's a comprehensive, ready-to-use blueprint
-maintained by our team of platform engineering experts and saves
-companies such as yours tons of time by building on top of a pre-configured
-solution instead of building and maintaining it yourself.
-
-For details please see [https://mineiros.io/github-as-code][github-as-code].
+    - [Requirements](#requirements)
+    - [Providers](#providers)
+    - [Resources](#resources)
+    - [Inputs](#inputs)
+    - [Outputs](#outputs)
+  - [External Documentation](#external-documentation)
+    - [Terraform Github Provider Documentation](#terraform-github-provider-documentation)
+  - [Module Versioning](#module-versioning)
+  - [Reporting Issues](#reporting-issues)
+  - [Contributing](#contributing)
+  - [Attribution](#attribution)
+  - [License](#license)
 
 ## Module Features
 
@@ -89,7 +51,7 @@ features like Branch Protection or Collaborator Management.
   Collaborators,
   Teams,
   Deploy Keys,
-  Projects,
+  Rulesets,
   Repository Webhooks,
   GitHub App Installations
 
@@ -104,8 +66,8 @@ Most basic usage creating a new private github repository.
 
 ```hcl
 module "repository" {
-  source  = "mineiros-io/repository/github"
-  version = "~> 0.18.0"
+  source  = "gaima8/repository/github"
+  version = "~> 0.19.2"
 
   name               = "terraform-github-repository"
   license_template   = "apache-2.0"
@@ -117,27 +79,23 @@ module "repository" {
 
 See [variables.tf] and [examples/] for details and use-cases.
 
-### Main Resource Configuration
+## Main Resource Configuration
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Requirements
+<!-- BEGIN_TF_DOCS -->
+### Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 7.0 |
 
-## Providers
+### Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | 6.7.5 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 6.2, < 7.0 |
 
-## Modules
-
-No modules.
-
-## Resources
+### Resources
 
 | Name | Type |
 |------|------|
@@ -164,7 +122,7 @@ No modules.
 | [github_organization_teams.all](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/organization_teams) | data source |
 | [github_user.user](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/user) | data source |
 
-## Inputs
+### Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -233,7 +191,7 @@ No modules.
 | <a name="input_web_commit_signoff_required"></a> [web\_commit\_signoff\_required](#input\_web\_commit\_signoff\_required) | (Optional) Require contributors to sign off on web-based commits. | `bool` | `null` | no |
 | <a name="input_webhooks"></a> [webhooks](#input\_webhooks) | (Optional) Configuring webhooks. For details please check: https://www.terraform.io/docs/providers/github/r/repository_webhook.html | `any` | `[]` | no |
 
-## Outputs
+### Outputs
 
 | Name | Description |
 |------|-------------|
@@ -250,7 +208,7 @@ No modules.
 | <a name="output_secrets"></a> [secrets](#output\_secrets) | List of secrets available. |
 | <a name="output_ssh_clone_url"></a> [ssh\_clone\_url](#output\_ssh\_clone\_url) | URL that can be provided to git clone to clone the repository via SSH. |
 | <a name="output_webhooks"></a> [webhooks](#output\_webhooks) | All attributes and arguments as returned by the github\_repository\_webhook resource. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## External Documentation
 
@@ -260,7 +218,7 @@ No modules.
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/branch
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_collaborator
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_deploy_key
-- https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_project
+- https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_ruleset
 - https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_autolink_reference
 
 ## Module Versioning
@@ -273,23 +231,6 @@ Given a version number `MAJOR.MINOR.PATCH`, we increment the:
 2. `MINOR` version when we add functionality in a backwards compatible manner, and
 3. `PATCH` version when we make backwards compatible bug fixes.
 
-### Backwards compatibility in `0.0.z` and `0.y.z` version
-
-- Backwards compatibility in versions `0.0.z` is **not guaranteed** when `z` is increased. (Initial development)
-- Backwards compatibility in versions `0.y.z` is **not guaranteed** when `y` is increased. (Pre-release)
-
-## About Mineiros
-
-[Mineiros][homepage] is a remote-first company headquartered in Berlin, Germany
-that solves development, automation and security challenges in cloud infrastructure.
-
-Our vision is to massively reduce time and overhead for teams to manage and
-deploy production-grade and secure cloud infrastructure.
-
-We offer commercial support for all of our modules and encourage you to reach out
-if you have any questions or need help. Feel free to email us at [hello@mineiros.io] or join our
-[Community Slack channel][slack].
-
 ## Reporting Issues
 
 We use GitHub [Issues] to track community reported issues and missing features.
@@ -299,10 +240,12 @@ We use GitHub [Issues] to track community reported issues and missing features.
 Contributions are always encouraged and welcome! For the process of accepting changes, we use
 [Pull Requests]. If you'd like more information, please see our [Contribution Guidelines].
 
-## Makefile Targets
+## Attribution
 
-This repository comes with a handy [Makefile].
-Run `make help` to see details on each available target.
+This repository is derived from the
+[Mineiros GmbH](https://mineiros.io/?ref=terraform-github-repository) open-source project
+[terraform-github-repository](https://github.com/mineiros-io/terraform-github-repository),
+licensed under the Apache License 2.0. This fork introduces changes.
 
 ## License
 
@@ -310,9 +253,6 @@ Run `make help` to see details on each available target.
 
 This module is licensed under the Apache License Version 2.0, January 2004.
 Please see [LICENSE] for full details.
-
-Copyright &copy; 2020-2022 [Mineiros GmbH][homepage]
-
 
 <!-- References -->
 
@@ -322,28 +262,13 @@ Copyright &copy; 2020-2022 [Mineiros GmbH][homepage]
 [`github_repository_deploy_key`]: https://www.terraform.io/docs/providers/github/r/repository_deploy_key.html#attributes-reference
 [`github_repository_project`]: https://www.terraform.io/docs/providers/github/r/repository_project.html#attributes-reference
 [`github_repository_autolink_reference`]: https://www.terraform.io/docs/providers/github/r/repository_autolink_reference.html#attributes-reference
-[homepage]: https://mineiros.io/?ref=terraform-github-repository
-[github-as-code]: https://mineiros.io/github-as-code?ref=terraform-github-repository
-[hello@mineiros.io]: mailto:hello@mineiros.io
-[badge-build]: https://github.com/mineiros-io/terraform-github-repository/workflows/CI/CD%20Pipeline/badge.svg
-[badge-semver]: https://img.shields.io/github/v/tag/mineiros-io/terraform-github-repository.svg?label=latest&sort=semver
 [badge-license]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
-[badge-terraform]: https://img.shields.io/badge/terraform-1.x-623CE4.svg?logo=terraform
-[badge-slack]: https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack
-[badge-tf-gh]: https://img.shields.io/badge/GH-4.10+-F8991D.svg?logo=terraform
-[releases-github-provider]: https://github.com/terraform-providers/terraform-provider-github/releases
-[build-status]: https://github.com/mineiros-io/terraform-github-repository/actions
-[releases-github]: https://github.com/mineiros-io/terraform-github-repository/releases
-[releases-terraform]: https://github.com/hashicorp/terraform/releases
 [apache20]: https://opensource.org/licenses/Apache-2.0
-[slack]: https://join.slack.com/t/mineiros-community/shared_invite/zt-ehidestg-aLGoIENLVs6tvwJ11w9WGg
 [terraform]: https://www.terraform.io
-[aws]: https://aws.amazon.com/
 [semantic versioning (semver)]: https://semver.org/
-[variables.tf]: https://github.com/mineiros-io/terraform-github-repository/blob/main/variables.tf
-[examples/]: https://github.com/mineiros-io/terraform-github-repository/blob/main/examples
-[issues]: https://github.com/mineiros-io/terraform-github-repository/issues
-[license]: https://github.com/mineiros-io/terraform-github-repository/blob/main/LICENSE
-[makefile]: https://github.com/mineiros-io/terraform-github-repository/blob/main/Makefile
-[pull requests]: https://github.com/mineiros-io/terraform-github-repository/pulls
-[contribution guidelines]: https://github.com/mineiros-io/terraform-github-repository/blob/main/CONTRIBUTING.md
+[variables.tf]: https://github.com/gaima8/terraform-github-repository/blob/main/variables.tf
+[examples/]: https://github.com/gaima8/terraform-github-repository/blob/main/examples
+[issues]: https://github.com/gaima8/terraform-github-repository/issues
+[license]: https://github.com/gaima8/terraform-github-repository/blob/main/LICENSE
+[pull requests]: https://github.com/gaima8/terraform-github-repository/pulls
+[contribution guidelines]: https://github.com/gaima8/terraform-github-repository/blob/main/CONTRIBUTING.md
