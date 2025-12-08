@@ -89,7 +89,6 @@ See [variables.tf] and [examples/] for details and use-cases.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 6.9 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.2 |
 
 ### Providers
 

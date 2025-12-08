@@ -23,7 +23,6 @@ EOF
         for key, value in(
           var.security_and_analysis != null ? var.security_and_analysis : {}
         ) :
-        # Only validate string fields
         key != "org_advanced_security" ? contains(["enabled", "disabled"], value) : true
       ])
     )
