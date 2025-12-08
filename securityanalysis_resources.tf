@@ -20,4 +20,10 @@ locals {
   advanced_security_status = (
     local.saa_child_enabled || local.security_and_analysis.advanced_security == "enabled"
   ) ? "enabled" : "disabled"
+
+  push_protection_valid = (
+    local.security_and_analysis.secret_scanning_push_protection == "enabled"
+    ? local.security_and_analysis.secret_scanning == "enabled"
+    : true
+  )
 }

@@ -196,11 +196,19 @@ resource "github_repository" "repository" {
     ]
     precondition {
       condition = (
-        var.visibility == "public"
-        || local.security_and_analysis.org_advanced_security
-        || !local.saa_child_enabled
+        (
+          var.visibility == "public"
+          || local.security_and_analysis.org_advanced_security
+          || !local.saa_child_enabled
+        )
+        &&
+        local.push_protection_valid
       )
-      error_message = "security_and_analysis cannot be used for private/internal repositories unless org_advanced_security is true."
+      error_message = (
+        local.push_protection_valid
+        ? "security_and_analysis cannot be used for private/internal repositories unless org_advanced_security is true."
+        : "secret_scanning_push_protection requires secret_scanning to also be enabled."
+      )
     }
   }
 }
