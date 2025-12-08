@@ -225,7 +225,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   - [**`org_advanced_security`**](#attr-security_and_analysis-org_advanced_security: *(**Optional** `bool`)*<a name="attr-security_and_analysis-org_advanced_security"></a>
 
-    If your GitHub Organization has split licensing for Advanced Security you can have Security and Analysis on non-public repositories. Otherwise Security and Analysis operates on all public repositories.
+    If your GitHub Organization has split licensing for Advanced Security you can have Security and Analysis on non-public repositories. Otherwise Security and Analysis operates on all public repositories. Currently there is no known way to automatically detect this.
 
     Define `org_advanced_security` as true to give more visibility options.
 
