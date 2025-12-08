@@ -1,3 +1,9 @@
+locals {
+  rulesets_by_name = {
+    for rs in var.rulesets : rs.name => rs
+  }
+}
+
 resource "github_repository_ruleset" "ruleset" {
   for_each = local.rulesets_by_name
 

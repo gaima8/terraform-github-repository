@@ -153,6 +153,40 @@ resource "github_repository" "repository" {
     }
   }
 
+  dynamic "security_and_analysis" {
+    for_each = (
+      var.visibility == "public" || local.security_and_analysis.org_advanced_security
+    ) ? [local.security_and_analysis] : []
+
+    content {
+      dynamic "advanced_security" {
+        for_each = var.visibility == "public" ? [] : [local.advanced_security_status]
+        content {
+          status = advanced_security.value
+        }
+      }
+
+      secret_scanning {
+        status = local.security_and_analysis.secret_scanning
+      }
+
+      secret_scanning_push_protection {
+        status = local.security_and_analysis.secret_scanning_push_protection
+      }
+
+      # code_security, secret_scanning_ai_detection, and secret_scanning_non_provider_patterns require integrations/github >= 6.9
+      # code_security {
+      #   status = local.security_and_analysis.code_security
+      # }
+      # secret_scanning_ai_detection {
+      #   status = local.security_and_analysis.secret_scanning_ai_detection
+      # }
+      # secret_scanning_non_provider_patterns {
+      #   status = local.security_and_analysis.secret_scanning_non_provider_patterns
+      # }
+    }
+  }
+
   lifecycle {
     ignore_changes = [
       auto_init,
@@ -160,6 +194,22 @@ resource "github_repository" "repository" {
       gitignore_template,
       template,
     ]
+    precondition {
+      condition = (
+        (
+          var.visibility == "public"
+          || local.security_and_analysis.org_advanced_security
+          || !local.saa_child_enabled
+        )
+        &&
+        local.push_protection_valid
+      )
+      error_message = (
+        local.push_protection_valid
+        ? "security_and_analysis cannot be used for private/internal repositories unless org_advanced_security is true."
+        : "secret_scanning_push_protection requires secret_scanning to also be enabled."
+      )
+    }
   }
 }
 
