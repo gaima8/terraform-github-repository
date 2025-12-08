@@ -154,7 +154,9 @@ resource "github_repository" "repository" {
   }
 
   dynamic "security_and_analysis" {
-    for_each = [local.security_and_analysis]
+    for_each = (
+      var.visibility == "public" || local.security_and_analysis.org_advanced_security
+    ) ? [local.security_and_analysis] : []
 
     content {
       dynamic "advanced_security" {
@@ -193,8 +195,12 @@ resource "github_repository" "repository" {
       template,
     ]
     precondition {
-      condition     = local.security_and_analysis.org_advanced_security || !local.saa_child_enabled || var.visibility == "public"
-      error_message = "security_and_analysis: Repository visibility must be 'public' if any security feature is enabled unless org_advanced_security is true."
+      condition = (
+        var.visibility == "public"
+        || local.security_and_analysis.org_advanced_security
+        || !local.saa_child_enabled
+      )
+      error_message = "security_and_analysis cannot be used for private/internal repositories unless org_advanced_security is true."
     }
   }
 }
