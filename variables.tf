@@ -194,8 +194,9 @@ variable "extra_topics" {
 variable "template" {
   description = "(Optional) Template repository to use. (Default: {})"
   type = object({
-    owner      = string
-    repository = string
+    owner                = string
+    repository           = string
+    include_all_branches = optional(bool, false)
   })
   default = null
 }
