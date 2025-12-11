@@ -14,27 +14,6 @@ variable "environments" {
   default = {}
 }
 
-locals {
-  required_team_slugs = toset(flatten([
-    for env_name, env_config in var.environments : env_config.reviewer_teams
-  ]))
-  required_usernames = toset(flatten([
-    for env_name, env_config in var.environments : env_config.reviewer_users
-  ]))
-  team_ids_by_slug = { for t in data.github_team.reviewers : t.slug => t.id }
-  user_ids_by_name = { for u in data.github_user.user : u.username => u.id }
-}
-
-data "github_team" "reviewers" {
-  for_each = local.required_team_slugs
-  slug     = each.key
-}
-
-data "github_user" "user" {
-  for_each = local.required_usernames
-  username = each.key
-}
-
 resource "github_repository_environment" "this" {
   for_each            = var.environments
   repository          = github_repository.repository.name
@@ -45,7 +24,7 @@ resource "github_repository_environment" "this" {
   dynamic "reviewers" {
     for_each = length(each.value.reviewer_teams) > 0 || length(each.value.reviewer_users) > 0 ? [true] : []
     content {
-      teams = [for slug in each.value.reviewer_teams : local.team_ids_by_slug[slug]]
+      teams = [for slug in each.value.reviewer_teams : try(local.team_ids_by_slug[slug], slug)]
       users = [for username in each.value.reviewer_users : local.user_ids_by_name[username]]
     }
   }
