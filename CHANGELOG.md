@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/gaima8/terraform-github-repository/compare/v0.19.2...v1.0.0) (2025-12-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Support for classic GitHub Projects has been removed. All resources related to projects are no longer created, and input variables for configuring projects have been deleted. Users relying on these features must update their configurations.
+
+### Features
+
+* Add repository rulesets ([#12](https://github.com/gaima8/terraform-github-repository/issues/12)) ([353fcdf](https://github.com/gaima8/terraform-github-repository/commit/353fcdfd0cc703024367c058a062a80e8e3c46c7))
+* Drop support for the deprecated GitHub Projects ([#9](https://github.com/gaima8/terraform-github-repository/issues/9)) ([ccafd33](https://github.com/gaima8/terraform-github-repository/commit/ccafd3302b967e32f227c4b82fda336eec9c8755))
+* **iluwaa:** Add support for `security_and_analysis` ([#2](https://github.com/gaima8/terraform-github-repository/issues/2)) ([2e3e2b9](https://github.com/gaima8/terraform-github-repository/commit/2e3e2b9f8e914c3a108702d6c9d101aff4a60cef))
+* **rsmets:** include_all_branches from template ([#19](https://github.com/gaima8/terraform-github-repository/issues/19)) ([522845b](https://github.com/gaima8/terraform-github-repository/commit/522845b8d7b0d9f5b9d4685fbae66f52253ad79a))
+* **tobiasehlert:** Add support for is alphanumeric in autolink reference ([#16](https://github.com/gaima8/terraform-github-repository/issues/16)) ([4274008](https://github.com/gaima8/terraform-github-repository/commit/42740081e69bb725c08f1f55df7ee74e1d8455e9))
+
+
+### Bug Fixes
+
+* Fetch only teams required for environments ([#17](https://github.com/gaima8/terraform-github-repository/issues/17)) ([ec995bc](https://github.com/gaima8/terraform-github-repository/commit/ec995bc80a6e979c7b855195050d2c949c86843f))
+* Remove ruleset settings not available in v6.2 ([#18](https://github.com/gaima8/terraform-github-repository/issues/18)) ([9577e44](https://github.com/gaima8/terraform-github-repository/commit/9577e449104564d50ebb067beb65375034bf2d57))
+* Validate 'pages' is defined correctly. ([#8](https://github.com/gaima8/terraform-github-repository/issues/8)) ([7a87fc2](https://github.com/gaima8/terraform-github-repository/commit/7a87fc24e4b44a7cffcc00ee0c25e6d57781e1f7))
+
 ## [0.19.2]
 
 ### Features
