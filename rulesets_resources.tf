@@ -96,6 +96,7 @@ resource "github_repository_ruleset" "ruleset" {
         for_each = rules.value.required_status_checks != null ? [rules.value.required_status_checks] : []
         content {
           strict_required_status_checks_policy = lookup(required_status_checks.value, "strict_required_status_checks_policy", null)
+          # do_not_enforce_on_create added in v6.5
           # do_not_enforce_on_create             = lookup(required_status_checks.value, "do_not_enforce_on_create", null)
 
           dynamic "required_check" {
@@ -108,6 +109,7 @@ resource "github_repository_ruleset" "ruleset" {
         }
       }
 
+      # merge_queue added in v6.6
       # dynamic "merge_queue" {
       #   for_each = rules.value.merge_queue != null ? [rules.value.merge_queue] : []
       #   content {
