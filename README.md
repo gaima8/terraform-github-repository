@@ -120,7 +120,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 | [github_repository_webhook.repository_webhook](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.team_repository](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [github_team_repository.team_repository_by_slug](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
-| [github_organization_teams.all](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/organization_teams) | data source |
+| [github_team.reviewers](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/team) | data source |
 | [github_user.user](https://registry.terraform.io/providers/integrations/github/latest/docs/data-sources/user) | data source |
 
 ### Inputs
