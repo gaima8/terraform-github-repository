@@ -87,14 +87,14 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.2, < 6.9 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.7 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.9.1 |
 
 ### Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | >= 6.2, < 6.9 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 6.9.1 |
 
 ### Resources
 
