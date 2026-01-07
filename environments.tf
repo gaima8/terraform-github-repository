@@ -59,15 +59,19 @@ resource "github_repository_environment" "this" {
   }
 }
 
-resource "github_repository_deployment_branch_policy" "this" {
+resource "github_repository_environment_deployment_policy" "this" {
   for_each = merge([for envName, env in var.environments : merge([for bp in env.branch_patterns : { ("${envName}:${bp}") : {
     environment    = envName
     branch_pattern = bp
   } }]...)]...)
-  depends_on       = [github_repository_environment.this]
-  environment_name = each.value.environment
-  repository       = github_repository.repository.name
-  name             = each.value.branch_pattern
+  depends_on     = [github_repository_environment.this]
+  environment    = each.value.environment
+  repository     = github_repository.repository.name
+  branch_pattern = each.value.branch_pattern
+}
+moved {
+  from = github_repository_deployment_branch_policy.this
+  to   = github_repository_environment_deployment_policy.this
 }
 
 resource "github_actions_environment_variable" "this" {
