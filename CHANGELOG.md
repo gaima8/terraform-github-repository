@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/gaima8/terraform-github-repository/compare/v1.0.0...v2.0.0) (2026-01-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Require integrations/github 6.9
+
+### Features
+
+* Require integrations/github 6.9 ([#21](https://github.com/gaima8/terraform-github-repository/issues/21)) ([c510b0f](https://github.com/gaima8/terraform-github-repository/commit/c510b0ffa9fb3b1a568d0d11b23199bf9e4b38e2))
+
 ## [1.0.0](https://github.com/gaima8/terraform-github-repository/compare/v0.19.2...v1.0.0) (2025-12-11)
 
 
