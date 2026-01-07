@@ -1,6 +1,7 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/gaima8/terraform-github-repository.svg?label=latest&sort=semver)](https://github.com/gaima8/terraform-github-repository/releases)
-[![Terraform Version](https://img.shields.io/badge/terraform-1.3-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
-[![Github Provider Version](https://img.shields.io/badge/GH-6.2+-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-github/releases)
+[![license](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Terraform Version](https://img.shields.io/badge/terraform-1.7-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
+[![Github Provider Version](https://img.shields.io/badge/GH-6.9+-F8991D.svg?logo=terraform)](https://github.com/terraform-providers/terraform-provider-github/releases)
 
 # terraform-github-repository
 
@@ -68,7 +69,7 @@ Most basic usage creating a new private github repository.
 ```hcl
 module "repository" {
   source  = "gaima8/repository/github"
-  version = "~> 0.19.2"
+  version = "~> 2.0.0"
 
   name               = "terraform-github-repository"
   license_template   = "apache-2.0"
