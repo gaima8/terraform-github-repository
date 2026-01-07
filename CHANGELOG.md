@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1](https://github.com/gaima8/terraform-github-repository/compare/v2.0.0...v2.0.1) (2026-01-07)
+
+
+### Bug Fixes
+
+* github_repository_deployment_branch_policy is deprecated ([#23](https://github.com/gaima8/terraform-github-repository/issues/23)) ([dc4e8c9](https://github.com/gaima8/terraform-github-repository/commit/dc4e8c928c35ba8f8a98e2e1c4f0d05454369ec0))
+
 ## [2.0.0](https://github.com/gaima8/terraform-github-repository/compare/v1.0.0...v2.0.0) (2026-01-07)
 
 
