@@ -6,7 +6,7 @@
 
 A [Terraform] module for creating a public or private repository on [Github].
 
-**_This module supports Terraform >=v1.3 and is compatible with the Official Terraform GitHub Provider v6.2 and above from `integrations/github`._**
+**_This module supports Terraform >=v1.7 and is compatible with the Official Terraform GitHub Provider v6.9 and above from `integrations/github`._**
 
 - [terraform-github-repository](#terraform-github-repository)
   - [Module Features](#module-features)
