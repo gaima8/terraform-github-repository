@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/gaima8/terraform-github-repository/compare/v2.0.1...v2.1.0) (2026-06-18)
+
+
+### Features
+
+* Drop outputs of deprecated values ([#28](https://github.com/gaima8/terraform-github-repository/issues/28)) ([a534392](https://github.com/gaima8/terraform-github-repository/commit/a5343924f2161bceaddb5f96afba431dcf413919))
+* has_downloads was deprecated in 2012, remove it ([#26](https://github.com/gaima8/terraform-github-repository/issues/26)) ([1e13f81](https://github.com/gaima8/terraform-github-repository/commit/1e13f8176676ec0bfd916c8a6979865feed94644))
+
 ## [2.0.1](https://github.com/gaima8/terraform-github-repository/compare/v2.0.0...v2.0.1) (2026-01-07)
 
 
