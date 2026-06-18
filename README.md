@@ -206,7 +206,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 | <a name="output_html_url"></a> [html\_url](#output\_html\_url) | URL to the repository on the web. |
 | <a name="output_http_clone_url"></a> [http\_clone\_url](#output\_http\_clone\_url) | URL that can be provided to git clone to clone the repository via HTTPS. |
 | <a name="output_issue_labels"></a> [issue\_labels](#output\_issue\_labels) | A map of issue labels keyed by label input id or name. |
-| <a name="output_repository"></a> [repository](#output\_repository) | All attributes and arguments as returned by the github\_repository resource. |
+| <a name="output_repository"></a> [repository](#output\_repository) | Non-deprecated attributes of the github\_repository resource. |
 | <a name="output_secrets"></a> [secrets](#output\_secrets) | List of secrets available. |
 | <a name="output_ssh_clone_url"></a> [ssh\_clone\_url](#output\_ssh\_clone\_url) | URL that can be provided to git clone to clone the repository via SSH. |
 | <a name="output_webhooks"></a> [webhooks](#output\_webhooks) | All attributes and arguments as returned by the github\_repository\_webhook resource. |
