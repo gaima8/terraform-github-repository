@@ -117,8 +117,7 @@ resource "github_repository" "repository" {
   archived               = var.archived
   topics                 = local.topics
 
-  archive_on_destroy   = var.archive_on_destroy
-  vulnerability_alerts = local.vulnerability_alerts
+  archive_on_destroy = var.archive_on_destroy
 
   web_commit_signoff_required = local.web_commit_signoff_required
 
@@ -212,6 +211,16 @@ resource "github_repository" "repository" {
       )
     }
   }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Vulnerability Alerts
+# https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_vulnerability_alerts
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "github_repository_vulnerability_alerts" "repository" {
+  repository = github_repository.repository.name
+  enabled    = local.vulnerability_alerts
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -339,9 +348,12 @@ resource "github_branch_protection_v3" "branch_protection" {
     for_each = local.required_status_checks[count.index]
 
     content {
-      strict   = required_status_checks.value.strict
-      contexts = required_status_checks.value.contexts
-      checks   = required_status_checks.value.checks
+      strict = required_status_checks.value.strict
+      checks = concat(
+        # Contexts map to app_id -1 (any app), matching the deprecated `contexts` behaviour
+        [for c in required_status_checks.value.contexts : "${c}:-1"],
+        required_status_checks.value.checks
+      )
     }
   }
 
