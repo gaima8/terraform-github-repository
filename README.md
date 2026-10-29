@@ -1,13 +1,13 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/gaima8/terraform-github-repository.svg?label=latest&sort=semver)](https://github.com/gaima8/terraform-github-repository/releases)
 [![license](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Terraform Version](https://img.shields.io/badge/terraform-1.7-623CE4.svg?logo=terraform)](https://github.com/hashicorp/terraform/releases)
-[![Github Provider Version](https://img.shields.io/badge/GH-6.9+-F8991D.svg?logo=terraform)](https://github.com/integrations/terraform-provider-github/releases)
+[![Github Provider Version](https://img.shields.io/badge/GH-6.12+-F8991D.svg?logo=terraform)](https://github.com/integrations/terraform-provider-github/releases)
 
 # terraform-github-repository
 
 A [Terraform] module for creating a public or private repository on [Github].
 
-**_This module supports Terraform >=v1.7 and is compatible with the Official Terraform GitHub Provider v6.9 and above from `integrations/github`._**
+**_This module supports Terraform >=v1.7 and is compatible with the Official Terraform GitHub Provider v6.12 and above from `integrations/github`._**
 
 - [terraform-github-repository](#terraform-github-repository)
   - [Module Features](#module-features)
@@ -89,13 +89,13 @@ See [variables.tf] and [examples/] for details and use-cases.
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.7 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.9.1 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | >= 6.12.0 |
 
 ### Providers
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_github"></a> [github](#provider\_github) | >= 6.9.1 |
+| <a name="provider_github"></a> [github](#provider\_github) | >= 6.12.0 |
 
 ### Resources
 
@@ -118,6 +118,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 | [github_repository_environment.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_environment) | resource |
 | [github_repository_environment_deployment_policy.this](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_environment_deployment_policy) | resource |
 | [github_repository_ruleset.ruleset](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_ruleset) | resource |
+| [github_repository_vulnerability_alerts.repository](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_vulnerability_alerts) | resource |
 | [github_repository_webhook.repository_webhook](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/repository_webhook) | resource |
 | [github_team_repository.team_repository](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
 | [github_team_repository.team_repository_by_slug](https://registry.terraform.io/providers/integrations/github/latest/docs/resources/team_repository) | resource |
