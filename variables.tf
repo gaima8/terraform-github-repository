@@ -66,6 +66,12 @@ variable "has_wiki" {
   default     = null
 }
 
+variable "has_discussions" {
+  description = "(Optional) Set to true to enable GitHub Discussions on the repository. (Default: false)"
+  type        = bool
+  default     = null
+}
+
 variable "allow_merge_commit" {
   description = "(Optional) Set to false to disable merge commits on the repository. (Default: true)"
   type        = bool

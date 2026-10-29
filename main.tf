@@ -11,6 +11,7 @@ locals {
   visibility             = var.visibility == null ? lookup(var.defaults, "visibility", local.private_visibility) : var.visibility
   has_issues             = var.has_issues == null ? lookup(var.defaults, "has_issues", false) : var.has_issues
   has_wiki               = var.has_wiki == null ? lookup(var.defaults, "has_wiki", false) : var.has_wiki
+  has_discussions        = var.has_discussions == null ? lookup(var.defaults, "has_discussions", false) : var.has_discussions
   allow_merge_commit     = var.allow_merge_commit == null ? lookup(var.defaults, "allow_merge_commit", true) : var.allow_merge_commit
   allow_rebase_merge     = var.allow_rebase_merge == null ? lookup(var.defaults, "allow_rebase_merge", false) : var.allow_rebase_merge
   allow_squash_merge     = var.allow_squash_merge == null ? lookup(var.defaults, "allow_squash_merge", false) : var.allow_squash_merge
@@ -102,6 +103,7 @@ resource "github_repository" "repository" {
   visibility             = local.visibility
   has_issues             = local.has_issues
   has_wiki               = local.has_wiki
+  has_discussions        = local.has_discussions
   allow_merge_commit     = local.allow_merge_commit
   allow_rebase_merge     = local.allow_rebase_merge
   allow_squash_merge     = local.allow_squash_merge
