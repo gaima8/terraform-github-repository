@@ -7,9 +7,11 @@ variable "environments" {
       custom_branch_policies = optional(bool)
     }))
     branch_patterns     = optional(list(string), [])
+    tag_patterns        = optional(list(string), [])
     variables           = optional(map(string), {})
     wait_timer          = optional(number)
     prevent_self_review = optional(bool)
+    can_admins_bypass   = optional(bool)
   }))
   default = {}
 }
@@ -41,6 +43,7 @@ resource "github_repository_environment" "this" {
   environment         = each.key
   wait_timer          = each.value.wait_timer
   prevent_self_review = each.value.prevent_self_review
+  can_admins_bypass   = each.value.can_admins_bypass
 
   dynamic "reviewers" {
     for_each = length(each.value.reviewer_teams) > 0 || length(each.value.reviewer_users) > 0 ? [true] : []
@@ -51,10 +54,10 @@ resource "github_repository_environment" "this" {
   }
 
   dynamic "deployment_branch_policy" {
-    for_each = each.value.deployment_branch_policy != null ? [each.value.deployment_branch_policy] : (length(each.value.branch_patterns) > 0 ? [{}] : [])
+    for_each = each.value.deployment_branch_policy != null ? [each.value.deployment_branch_policy] : (length(each.value.branch_patterns) + length(each.value.tag_patterns) > 0 ? [{}] : [])
     content {
       protected_branches     = lookup(deployment_branch_policy.value, "protected_branches", false)
-      custom_branch_policies = lookup(deployment_branch_policy.value, "custom_branch_policies", length(each.value.branch_patterns) > 0)
+      custom_branch_policies = coalesce(lookup(deployment_branch_policy.value, "custom_branch_policies", null), length(each.value.branch_patterns) + length(each.value.tag_patterns) > 0)
     }
   }
 }
@@ -72,6 +75,28 @@ resource "github_repository_environment_deployment_policy" "this" {
 moved {
   from = github_repository_deployment_branch_policy.this
   to   = github_repository_environment_deployment_policy.this
+}
+
+# A separate resource, so tag policies can never share an address with branch policies
+resource "github_repository_environment_deployment_policy" "tag" {
+  for_each = merge(
+    [
+      for envName, env in var.environments : merge(
+        [
+          for tp in env.tag_patterns : {
+            ("${envName}:${tp}") : {
+              environment = envName
+              tag_pattern = tp
+            }
+          }
+        ]...
+      )
+    ]...
+  )
+  depends_on  = [github_repository_environment.this]
+  environment = each.value.environment
+  repository  = github_repository.repository.name
+  tag_pattern = each.value.tag_pattern
 }
 
 resource "github_actions_environment_variable" "this" {
