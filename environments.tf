@@ -57,7 +57,7 @@ resource "github_repository_environment" "this" {
     for_each = each.value.deployment_branch_policy != null ? [each.value.deployment_branch_policy] : (length(each.value.branch_patterns) + length(each.value.tag_patterns) > 0 ? [{}] : [])
     content {
       protected_branches     = lookup(deployment_branch_policy.value, "protected_branches", false)
-      custom_branch_policies = lookup(deployment_branch_policy.value, "custom_branch_policies", length(each.value.branch_patterns) + length(each.value.tag_patterns) > 0)
+      custom_branch_policies = coalesce(lookup(deployment_branch_policy.value, "custom_branch_policies", null), length(each.value.branch_patterns) + length(each.value.tag_patterns) > 0)
     }
   }
 }
