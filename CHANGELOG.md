@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.1](https://github.com/gaima8/terraform-github-repository/compare/v2.5.0...v2.5.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* Replace deprecated secret value attributes ([#38](https://github.com/gaima8/terraform-github-repository/issues/38)) ([277904e](https://github.com/gaima8/terraform-github-repository/commit/277904eb6872e877f23e80b1bd5c87513ef535b4))
+
 ## [2.5.0](https://github.com/gaima8/terraform-github-repository/compare/v2.4.0...v2.5.0) (2026-11-24)
 
 
