@@ -63,48 +63,40 @@ resource "github_repository_environment" "this" {
 }
 
 resource "github_repository_environment_deployment_policy" "this" {
-  for_each = merge(
-    merge(
-      [
-        for envName, env in var.environments : merge(
-          [
-            for bp in env.branch_patterns : {
-              ("${envName}:${bp}") : {
-                environment    = envName
-                branch_pattern = bp
-                tag_pattern    = null
-              }
-            }
-          ]...
-        )
-      ]...
-    ),
-    # Tag keys are distinct so a tag and a branch with the same pattern don't collide
-    merge(
-      [
-        for envName, env in var.environments : merge(
-          [
-            for tp in env.tag_patterns : {
-              ("${envName}:tag:${tp}") : {
-                environment    = envName
-                branch_pattern = null
-                tag_pattern    = tp
-              }
-            }
-          ]...
-        )
-      ]...
-    ),
-  )
+  for_each = merge([for envName, env in var.environments : merge([for bp in env.branch_patterns : { ("${envName}:${bp}") : {
+    environment    = envName
+    branch_pattern = bp
+  } }]...)]...)
   depends_on     = [github_repository_environment.this]
   environment    = each.value.environment
   repository     = github_repository.repository.name
   branch_pattern = each.value.branch_pattern
-  tag_pattern    = each.value.tag_pattern
 }
 moved {
   from = github_repository_deployment_branch_policy.this
   to   = github_repository_environment_deployment_policy.this
+}
+
+# A separate resource, so tag policies can never share an address with branch policies
+resource "github_repository_environment_deployment_policy" "tag" {
+  for_each = merge(
+    [
+      for envName, env in var.environments : merge(
+        [
+          for tp in env.tag_patterns : {
+            ("${envName}:${tp}") : {
+              environment = envName
+              tag_pattern = tp
+            }
+          }
+        ]...
+      )
+    ]...
+  )
+  depends_on  = [github_repository_environment.this]
+  environment = each.value.environment
+  repository  = github_repository.repository.name
+  tag_pattern = each.value.tag_pattern
 }
 
 resource "github_actions_environment_variable" "this" {
