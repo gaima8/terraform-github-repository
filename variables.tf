@@ -360,6 +360,7 @@ variable "branch_protections_v4" {
   #       allows_deletions                = optional(bool, false)
   #       allows_force_pushes             = optional(bool, false)
   #       enforce_admins                  = optional(bool, false)
+  #       restrict_pushes                 = optional(bool, false)
   #       push_restrictions               = optional(list(string), [])
   #       force_push_bypassers            = optional(list(string), [])
   #       require_conversation_resolution = optional(bool, false)
