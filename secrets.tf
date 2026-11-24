@@ -14,6 +14,6 @@ resource "github_actions_secret" "repository_secret" {
 
   repository      = github_repository.repository.name
   secret_name     = each.key
-  plaintext_value = try(each.value.plaintext, null)
-  encrypted_value = try(each.value.encrypted, null)
+  value           = try(each.value.plaintext, null)
+  value_encrypted = try(each.value.encrypted, null)
 }
