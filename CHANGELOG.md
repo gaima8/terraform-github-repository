@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0](https://github.com/gaima8/terraform-github-repository/compare/v2.4.0...v2.5.0) (2026-11-24)
+
+
+### Features
+
+* Add restrict_pushes to branch_protections_v4 ([#36](https://github.com/gaima8/terraform-github-repository/issues/36)) ([8f51bb8](https://github.com/gaima8/terraform-github-repository/commit/8f51bb8e347a0bdde3b85ed649c7a76f7dc98b37))
+
 ## [2.4.0](https://github.com/gaima8/terraform-github-repository/compare/v2.3.0...v2.4.0) (2026-11-24)
 
 
