@@ -82,6 +82,7 @@ EOF
 
           pull_request = optional(
             object({
+              allowed_merge_methods             = optional(list(string))
               dismiss_stale_reviews_on_push     = optional(bool)
               require_code_owner_review         = optional(bool)
               require_last_push_approval        = optional(bool)
