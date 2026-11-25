@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0](https://github.com/gaima8/terraform-github-repository/compare/v2.5.1...v2.6.0) (2026-11-25)
+
+
+### Features
+
+* Add allowed_merge_methods to ruleset pull_request rules ([#40](https://github.com/gaima8/terraform-github-repository/issues/40)) ([d5a1a55](https://github.com/gaima8/terraform-github-repository/commit/d5a1a5561b2334f72c31fd0925c4aa8f18843c58))
+
 ## [2.5.1](https://github.com/gaima8/terraform-github-repository/compare/v2.5.0...v2.5.1) (2026-11-24)
 
 
