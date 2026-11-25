@@ -84,6 +84,7 @@ resource "github_repository_ruleset" "ruleset" {
       dynamic "pull_request" {
         for_each = rules.value.pull_request != null ? [rules.value.pull_request] : []
         content {
+          allowed_merge_methods             = lookup(pull_request.value, "allowed_merge_methods", null)
           dismiss_stale_reviews_on_push     = lookup(pull_request.value, "dismiss_stale_reviews_on_push", null)
           require_code_owner_review         = lookup(pull_request.value, "require_code_owner_review", null)
           require_last_push_approval        = lookup(pull_request.value, "require_last_push_approval", null)
