@@ -191,10 +191,10 @@ EOF
               : true
             )
             &&
-            # For OrganizationAdmin → actor_id must be 1
+            # For OrganizationAdmin → actor_id must be 0 or 1 (GitHub stores 0)
             (
               ba.actor_type == "OrganizationAdmin"
-              ? ba.actor_id == 1
+              ? contains([0, 1], ba.actor_id)
               : true
             )
             &&
@@ -213,7 +213,7 @@ EOF
 Invalid bypass_actors configuration:
 
 • Integration, RepositoryRole, and Team require a non-null actor_id.
-• OrganizationAdmin requires actor_id = 1.
+• OrganizationAdmin requires actor_id = 0 or 1. GitHub stores 0, so 1 shows a diff.
 • DeployKey requires actor_id = null.
 EOF
   }

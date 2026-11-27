@@ -219,8 +219,16 @@ resource "github_repository" "repository" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "github_repository_vulnerability_alerts" "repository" {
+  # GitHub returns 404 for an archived repository's vulnerability alerts, which the provider treats as an error
+  count = var.archived ? 0 : 1
+
   repository = github_repository.repository.name
   enabled    = local.vulnerability_alerts
+}
+
+moved {
+  from = github_repository_vulnerability_alerts.repository
+  to   = github_repository_vulnerability_alerts.repository[0]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
